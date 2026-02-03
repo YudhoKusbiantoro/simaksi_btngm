@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrasi - SIMAKSI TNGM</title>
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
             font-family: 'Figtree', sans-serif;
             background:
-                linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+                linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .45)),
                 url('{{ asset('images/gunung-merapi.jpeg') }}') center/cover no-repeat;
             min-height: 100vh;
             display: flex;
@@ -32,11 +35,11 @@
             max-width: 420px;
             padding: 38px 32px;
             border-radius: 20px;
-            background: rgba(255,255,255,0.20);
+            background: rgba(255, 255, 255, 0.20);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.35);
-            box-shadow: 0 30px 70px rgba(0,0,0,.35);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
             color: #fff;
         }
 
@@ -74,12 +77,12 @@
             border: none;
             font-size: 14px;
             margin-bottom: 16px;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         input:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(22,163,74,.6);
+            box-shadow: 0 0 0 2px rgba(22, 163, 74, .6);
         }
 
         button {
@@ -96,7 +99,7 @@
         }
 
         button:hover {
-            background: #166534; 
+            background: #166534;
         }
 
         .links {
@@ -117,7 +120,7 @@
         }
 
         footer {
-            background: rgba(20,83,45,.95); 
+            background: rgba(20, 83, 45, .95);
             color: #e5e7eb;
             text-align: center;
             padding: 14px;
@@ -125,44 +128,57 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="wrapper">
-    <div class="glass-card">
+    <div class="wrapper">
+        <div class="glass-card">
 
-        <!-- LOGO -->
-        <img src="{{ asset('images/logo-simaksi.webp') }}" alt="Logo BTNGM" class="logo">
+            <!-- LOGO -->
+            <img src="{{ asset('images/logo-simaksi.webp') }}" alt="Logo BTNGM" class="logo">
 
-        <h2>SIMAKSI TNGM</h2>
-        <div class="subtitle">
-            Sistem Informasi Manajemen Akses Kawasan
-        </div>
+            <h2>SIMAKSI TNGM</h2>
+            <div class="subtitle">
+                Sistem Informasi Manajemen Akses Kawasan
+            </div>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    style="margin-bottom: 4px;">
+                @error('email')
+                    <p
+                        style="color: #ff4d4d; font-size: 12px; margin-top: 0; margin-bottom: 12px; font-weight: 700;">
+                        {{ $message }}</p>
+                @enderror
 
-            <label>Password</label>
-            <input type="password" name="password" required>
+                <label>Password</label>
+                <input type="password" name="password" required autocomplete="new-password" style="margin-bottom: 4px;">
+                @error('password')
+                    <p
+                        style="color: #ff4d4d; font-size: 12px; margin-top: 0; margin-bottom: 12px; font-weight: 700;">
+                        {{ $message }}</p>
+                @enderror
 
-            <label>Konfirmasi Password</label>
-            <input type="password" name="password_confirmation" required>
+                <label>Konfirmasi Password</label>
+                <input type="password" name="password_confirmation" required autocomplete="new-password">
 
-            <button type="submit">Daftar</button>
-        </form>
+                <button type="submit">Daftar</button>
+            </form>
 
-        <div class="links">
-            Sudah punya akun?
-            <a href="{{ route('login') }}">Login</a>
+            <div class="links">
+                Sudah punya akun?
+                <a href="{{ route('login') }}">Login</a>
+            </div>
         </div>
     </div>
-</div>
 
-<footer>
-    © {{ date('Y') }} Balai Taman Nasional Gunung Merapi — Kementerian LHK RI
-</footer>
+    <footer>
+        © {{ date('Y') }} Balai Taman Nasional Gunung Merapi — Kementerian LHK RI
+    </footer>
 
 </body>
+
 </html>

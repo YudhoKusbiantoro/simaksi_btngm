@@ -35,17 +35,21 @@
         <div class="relative z-10 text-white">
 
             <!-- TOP BAR -->
-            <div class="flex justify-between items-center px-6 py-2 text-xs md:text-sm">
+            <div class="flex justify-between items-center px-6 pt-6 pb-2 text-lg md:text-xl font-medium">
                 <span>Telpon Kantor <strong>(0341) 491828</strong></span>
 
                 <div class="flex items-center gap-4">
-                    <img src="{{ asset('images/logo-tiktok.png') }}" class="w-5 h-5">
-                    <img src="{{ asset('images/logo-instagram.png') }}" class="w-5 h-5">
+                    <a href="https://www.tiktok.com/@btng.merapi?_r=1&_t=ZS-93bMOGScMTP" target="_blank">
+                        <img src="{{ asset('images/logo-tiktok.png') }}" class="w-5 h-5 brightness-0 invert">
+                    </a>
+                    <a href="https://www.instagram.com/btn_gn_merapi" target="_blank">
+                        <img src="{{ asset('images/logo-instagram.png') }}" class="w-5 h-5 brightness-0 invert">
+                    </a>
 
                     @auth
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open"
-                                class="flex items-center gap-1 text-xs focus:outline-none">
+                                class="flex items-center gap-1 text-lg focus:outline-none">
                             {{ Auth::user()->email }}
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -81,17 +85,17 @@
             <div id="navbar"
                  class="flex justify-between items-center px-6 py-2 md:py-3 transition-all duration-300">
 
-                <div class="flex items-center gap-3 text-xl font-bold tracking-wider">
+                <div class="flex items-center gap-3 text-2xl md:text-3xl font-bold tracking-wider">
                     <img src="{{ asset('images/logo-simaksi.webp') }}" class="h-10">
                     <span>TNGM</span>
                 </div>
 
-                <nav class="flex gap-6 md:gap-10 font-medium text-sm">
+                <nav class="flex gap-6 md:gap-10 font-extrabold text-base md:text-lg">
                     @foreach([
                         ['Beranda', '#hero'],
                         ['Peraturan', '#peraturan'],
                         ['Panduan', '#panduan'],
-                        ['Harga', '#'],
+                        ['Harga', route('harga')],
                         ['Kontak', '#']
                     ] as $menu)
                     <a href="{{ $menu[1] }}"

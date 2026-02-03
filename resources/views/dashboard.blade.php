@@ -1,19 +1,27 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 py-10">
 
+        <div class="mb-4">
+            <a href="{{ route('home') }}"
+                class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
+                &larr; Kembali ke Beranda
+            </a>
+        </div>
+
         <h1 class="text-3xl font-bold mb-4">Riwayat Pengajuan SIMAKSI</h1>
 
         <!-- Info Instansi -->
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-800">
             <strong>Informasi:</strong>
-            Halaman ini menampilkan seluruh riwayat pengajuan izin kegiatan yang telah Anda ajukan melalui Sistem SIMAKSI.
+            Halaman ini menampilkan seluruh riwayat pengajuan izin kegiatan yang telah Anda ajukan melalui Sistem
+            SIMAKSI.
         </div>
 
         @if($pengajuans->isEmpty())
             <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600">
                 <p class="text-gray-700 mb-4">Belum ada pengajuan izin kegiatan.</p>
                 <a href="{{ route('ajukan') }}"
-                   class="inline-block bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
+                    class="inline-block bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
                     Ajukan SIMAKSI Sekarang
                 </a>
             </div>
@@ -35,6 +43,7 @@
                             <th class="px-6 py-3 text-left font-semibold text-gray-600">Waktu Kegiatan</th>
                             <th class="px-6 py-3 text-left font-semibold text-gray-600">Status</th>
                             <th class="px-6 py-3 text-left font-semibold text-gray-600">Tanggal Pengajuan</th>
+                            <th class="px-6 py-3 text-left font-semibold text-gray-600">Aksi</th>
                         </tr>
                     </thead>
 
@@ -61,6 +70,10 @@
                                         <span class="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
                                             Disetujui
                                         </span>
+                                    @elseif($pengajuan->status === 'revisi')
+                                        <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                                            Revisi
+                                        </span>
                                     @else
                                         <span class="px-2 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold">
                                             Ditolak
@@ -69,6 +82,22 @@
                                 </td>
                                 <td class="px-6 py-4 text-gray-500">
                                     {{ $pengajuan->created_at->format('d M Y') }}
+                                    @if($pengajuan->catatan && in_array($pengajuan->status, ['revisi', 'ditolak']))
+                                        <div class="mt-1 text-[10px] text-red-500 italic max-w-xs truncate"
+                                            title="{{ $pengajuan->catatan }}">
+                                            Obs: {{ $pengajuan->catatan }}
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($pengajuan->status === 'revisi')
+                                        <a href="{{ route('ajukan.edit', $pengajuan->id) }}"
+                                            class="text-blue-600 hover:text-blue-800 font-semibold underline">
+                                            Lengkapi Revisi
+                                        </a>
+                                    @else
+                                        <span class="text-gray-400">-</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

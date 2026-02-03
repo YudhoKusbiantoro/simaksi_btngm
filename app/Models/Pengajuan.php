@@ -16,10 +16,12 @@ class Pengajuan extends Model
         'tanggal_selesai',
         'kewarganegaraan',
         'status',
-        'nama_pemohon',   
-        'identitas',      
-        'jabatan',        
-        'instansi',       
+        'nama_pemohon',
+        'identitas',
+        'jabatan',
+        'instansi',
+        'catatan',
+        'is_revisi_submitted',
     ];
 
     public function user()
@@ -34,5 +36,15 @@ class Pengajuan extends Model
     public function anggotas()
     {
         return $this->hasMany(PengajuanAnggota::class);
+    }
+
+    public function dokumens()
+    {
+        return $this->hasMany(PengajuanDokumen::class);
+    }
+
+    public function statusLogs()
+    {
+        return $this->hasMany(PengajuanStatusLog::class)->orderBy('created_at', 'asc');
     }
 }

@@ -17,19 +17,26 @@ use App\Http\Controllers\SuratController;
 */
 
 // Halaman utama
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/harga', function () {
+    return view('harga');
+})->name('harga');
 
 /*
 |--------------------------------------------------------------------------
 | USER (LOGIN WAJIB)
 |--------------------------------------------------------------------------
 */
-    Route::middleware(['auth', BlockAdminFromUserDashboard::class])->group(function () {
+Route::middleware(['auth', BlockAdminFromUserDashboard::class])->group(function () {
 
     // Ajukan SIMAKSI
     Route::get('/ajukan', [AjukanController::class, 'index'])->name('ajukan');
     Route::post('/ajukan', [AjukanController::class, 'store'])->name('ajukan.store');
-  
+
+    // Re-upload (Revisi)
+    Route::get('/ajukan/edit/{pengajuan}', [AjukanController::class, 'edit'])->name('ajukan.edit');
+    Route::post('/ajukan/update/{pengajuan}', [AjukanController::class, 'update'])->name('ajukan.update');
+
     // Download template surat
     Route::get('/surat/download/{jenisKegiatan}', [SuratController::class, 'download'])
         ->name('surat.download')
@@ -51,9 +58,18 @@ Route::get('/api/persyaratan', [AjukanController::class, 'getPersyaratan']);
 | ADMIN
 |--------------------------------------------------------------------------
 */
-    Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
+
+    Route::get('/admin/pengajuan', [\App\Http\Controllers\Admin\PengajuanController::class, 'index'])
+        ->name('admin.pengajuan.index');
+
+    Route::get('/admin/pengajuan/{pengajuan}', [\App\Http\Controllers\Admin\PengajuanController::class, 'show'])
+        ->name('admin.pengajuan.show');
+
+    Route::patch('/admin/pengajuan/{pengajuan}/status', [\App\Http\Controllers\Admin\PengajuanController::class, 'updateStatus'])
+        ->name('admin.pengajuan.status');
 });
 
 /*
@@ -61,7 +77,7 @@ Route::get('/api/persyaratan', [AjukanController::class, 'getPersyaratan']);
 | PROFILE
 |--------------------------------------------------------------------------
 */
-    Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -72,4 +88,4 @@ Route::get('/api/persyaratan', [AjukanController::class, 'getPersyaratan']);
 | AUTH (LOGIN / REGISTER)
 |--------------------------------------------------------------------------
 */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

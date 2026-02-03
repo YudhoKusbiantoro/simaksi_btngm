@@ -45,6 +45,8 @@ class AuthenticatedSessionController extends Controller
     }
     protected function authenticated(Request $request, $user)
     {
+        session()->flash('success', 'Login berhasil!');
+
         // Admin masuk dashboard admin
         if ($user->is_admin) {
             return redirect()->route('admin.dashboard');

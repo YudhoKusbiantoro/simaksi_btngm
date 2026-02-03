@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,7 @@
             margin: 0;
             font-family: 'Figtree', sans-serif;
             background:
-                linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+                linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .45)),
                 url('{{ asset('images/gunung-merapi.jpeg') }}') center/cover no-repeat;
             min-height: 100vh;
             display: flex;
@@ -35,12 +36,12 @@
             padding: 36px 32px;
             border-radius: 20px;
 
-            background: rgba(255,255,255,0.20);
+            background: rgba(255, 255, 255, 0.20);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
 
-            border: 1px solid rgba(255,255,255,0.35);
-            box-shadow: 0 30px 70px rgba(0,0,0,.35);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
             color: #fff;
         }
 
@@ -80,12 +81,12 @@
             border: none;
             font-size: 14px;
             margin-bottom: 16px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         input:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(22,163,74,.6);
+            box-shadow: 0 0 0 2px rgba(22, 163, 74, .6);
         }
 
         button {
@@ -123,7 +124,7 @@
         }
 
         footer {
-            background: rgba(20,83,45,.95);
+            background: rgba(20, 83, 45, .95);
             color: #e5e7eb;
             text-align: center;
             padding: 14px;
@@ -131,39 +132,49 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="wrapper">
-    <div class="glass-card">
-        <div class="header">
-            <img src="{{ asset('images/logo-simaksi.webp') }}" alt="TNGM">
-            <h1>SIMAKSI TNGM</h1>
-            <p>Sistem Informasi Manajemen Akses Kawasan</p>
-        </div>
+    <div class="wrapper">
+        <div class="glass-card">
+            <div class="header">
+                <img src="{{ asset('images/logo-simaksi.webp') }}" alt="TNGM">
+                <h1>SIMAKSI TNGM</h1>
+                <p>Sistem Informasi Manajemen Akses Kawasan</p>
+            </div>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus>
 
-            <label>Password</label>
-            <input type="password" name="password" required>
+                <label>Password</label>
+                <input type="password" name="password" required autocomplete="current-password"
+                    style="margin-bottom: 4px;">
 
-            <button type="submit">Login</button>
-        </form>
+                @if($errors->any())
+                    <p
+                        style="color: #ff4d4d; font-size: 13px; margin-top: 0; margin-bottom: 16px; font-weight: 700;">
+                        {{ $errors->first() }}
+                    </p>
+                @endif
 
-        <div class="links">
-            <a href="{{ route('password.request') }}">Lupa password?</a><br>
-            Belum punya akun?
-            <a href="{{ route('register') }}">Daftar</a>
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="links">
+                <a href="{{ route('password.request') }}">Lupa password?</a><br>
+                Belum punya akun?
+                <a href="{{ route('register') }}">Daftar</a>
+            </div>
         </div>
     </div>
-</div>
 
-<footer>
-    © {{ date('Y') }} Balai Taman Nasional Gunung Merapi — Kementerian LHK RI
-</footer>
+    <footer>
+        © {{ date('Y') }} Balai Taman Nasional Gunung Merapi — Kementerian LHK RI
+    </footer>
 
 </body>
+
 </html>

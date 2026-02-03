@@ -9,7 +9,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $pengajuans = Pengajuan::with(['user', 'jenisKegiatan'])->latest()->get();
-        return view('admin.dashboard', compact('pengajuans'));
+        $total = Pengajuan::count();
+        $pending = Pengajuan::where('status', 'menunggu')->count();
+        $approved = Pengajuan::where('status', 'disetujui')->count();
+        $rejected = Pengajuan::where('status', 'ditolak')->count();
+
+        $recentActivity = Pengajuan::with(['user', 'jenisKegiatan'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact('total', 'pending', 'approved', 'rejected', 'recentActivity'));
     }
 }
