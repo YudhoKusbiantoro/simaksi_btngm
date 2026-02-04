@@ -53,6 +53,14 @@
                             {{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->format('d M Y') }}
                         </p>
                     </div>
+                    <div>
+                        <p class="text-gray-500">Lokasi Kegiatan</p>
+                        <p class="font-medium text-gray-800">{{ $pengajuan->lokasi }}</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <p class="text-gray-500">Tujuan Kegiatan</p>
+                        <p class="font-medium text-gray-800">{{ $pengajuan->tujuan }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -186,21 +194,21 @@
                         <div class="relative">
                             <!-- Bullet -->
                             <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full border-2 border-white 
-                                    @if($log->status == 'menunggu') bg-yellow-400 
-                                    @elseif($log->status == 'revisi') bg-blue-500 
-                                    @elseif($log->status == 'sudah di revisi') bg-purple-500 
-                                    @elseif($log->status == 'disetujui') bg-green-500 
-                                    @else bg-red-500 @endif shadow-sm">
+                                        @if($log->status == 'menunggu') bg-yellow-400 
+                                        @elseif($log->status == 'revisi') bg-blue-500 
+                                        @elseif($log->status == 'sudah di revisi') bg-purple-500 
+                                        @elseif($log->status == 'disetujui') bg-green-500 
+                                        @else bg-red-500 @endif shadow-sm">
                             </div>
 
                             <div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold uppercase tracking-wider 
-                                        @if($log->status == 'menunggu') text-yellow-700 
-                                        @elseif($log->status == 'revisi') text-blue-700 
-                                        @elseif($log->status == 'sudah di revisi') text-purple-700 
-                                        @elseif($log->status == 'disetujui') text-green-700 
-                                        @else text-red-700 @endif">
+                                            @if($log->status == 'menunggu') text-yellow-700 
+                                            @elseif($log->status == 'revisi') text-blue-700 
+                                            @elseif($log->status == 'sudah di revisi') text-purple-700 
+                                            @elseif($log->status == 'disetujui') text-green-700 
+                                            @else text-red-700 @endif">
                                         {{ $log->status == 'sudah di revisi' ? 'SUDAH DIREVISI' : ucfirst($log->status) }}
                                     </span>
                                     <span class="text-[10px] text-gray-400">

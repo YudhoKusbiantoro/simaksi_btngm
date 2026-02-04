@@ -20,6 +20,8 @@ class Pengajuan extends Model
         'identitas',
         'jabatan',
         'instansi',
+        'tujuan',
+        'lokasi',
         'catatan',
         'is_revisi_submitted',
     ];

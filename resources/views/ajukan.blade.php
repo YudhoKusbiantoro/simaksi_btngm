@@ -37,7 +37,8 @@
                         </div>
                         <div>
                             <label class="block text-gray-700 font-medium mb-2">Jabatan / Peran</label>
-                            <input type="text" name="jabatan" required placeholder="Koordinator, Ketua Kelompok, Dosen Pembimbing"
+                            <input type="text" name="jabatan" required
+                                placeholder="Koordinator, Ketua Kelompok, Dosen Pembimbing"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
                         <div>
@@ -45,14 +46,25 @@
                             <input type="text" name="instansi" required placeholder="Universitas, Sekolah, Perusahaan"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 font-medium mb-2">Lokasi Kegiatan</label>
+                            <input type="text" name="lokasi" required placeholder="Contoh: Plawangan, Kaliadem, dll."
+                                class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 font-medium mb-2">Tujuan Kegiatan</label>
+                            <textarea name="tujuan" required rows="3"
+                                placeholder="Jelaskan tujuan kegiatan Anda secara singkat..."
+                                class="w-full border border-gray-300 rounded-lg px-4 py-2"></textarea>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Jenis Kegiatan -->
                 <div class="mb-4">
                     <label class="block font-medium mb-2">Jenis Kegiatan</label>
-                    <select name="jenis_kegiatan_id" id="jenis_kegiatan"
-                            class="w-full border rounded-lg px-4 py-2" required>
+                    <select name="jenis_kegiatan_id" id="jenis_kegiatan" class="w-full border rounded-lg px-4 py-2"
+                        required>
                         <option value="" disabled selected hidden>Pilih Jenis Kegiatan</option>
                         @foreach($jenisKegiatans as $jk)
                             <option value="{{ $jk->id }}">{{ $jk->nama }}</option>
@@ -79,12 +91,10 @@
                 <div class="mb-4">
                     <label class="block font-medium mb-2">Waktu Pelaksanaan</label>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="date" name="tanggal_mulai"
-                                min="{{ now()->toDateString() }}"
-                                required class="border rounded-lg px-4 py-2">
-                        <input type="date" name="tanggal_selesai"
-                                min="{{ now()->toDateString() }}"
-                                required class="border rounded-lg px-4 py-2">
+                        <input type="date" name="tanggal_mulai" min="{{ now()->toDateString() }}" required
+                            class="border rounded-lg px-4 py-2">
+                        <input type="date" name="tanggal_selesai" min="{{ now()->toDateString() }}" required
+                            class="border rounded-lg px-4 py-2">
                     </div>
                 </div>
             </div>
@@ -103,8 +113,11 @@
                     <h2 class="text-lg font-semibold">Data Anggota</h2>
                     <button type="button" id="tambah-anggota"
                         class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd" />
                         </svg>
                         Tambah Anggota
                     </button>
@@ -144,8 +157,7 @@
 
             <!-- ACTION -->
             <div class="flex items-center space-x-4">
-                <button type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
                     Ajukan SIMAKSI
                 </button>
                 <a href="{{ route('dashboard') }}" class="text-green-600 hover:underline">
@@ -266,7 +278,7 @@
             wna.addEventListener('change', loadPersyaratan);
 
             // Validasi sebelum submit form
-            document.getElementById('ajukanForm').addEventListener('submit', function(e) {
+            document.getElementById('ajukanForm').addEventListener('submit', function (e) {
                 const inputs = document.querySelectorAll('input[type="file"]');
                 let hasError = false;
 

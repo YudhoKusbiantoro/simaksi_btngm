@@ -123,35 +123,57 @@
             <h3 class="font-bold text-gray-700 mb-6 uppercase tracking-wider text-xs">Aktivitas Terbaru</h3>
             <div class="space-y-6 flex-1">
                 @forelse($recentActivity as $activity)
+
+                    @php
+                        $iconColor = match($activity->status) {
+                            'menunggu' => 'bg-yellow-100 text-yellow-600',
+                            'disetujui' => 'bg-green-100 text-green-600',
+                            'ditolak' => 'bg-red-100 text-red-600',
+                            default => 'bg-blue-100 text-blue-600',
+                        };
+
+                        $badgeColor = match($activity->status) {
+                            'menunggu' => 'bg-yellow-100 text-yellow-700',
+                            'disetujui' => 'bg-green-100 text-green-700',
+                            'ditolak' => 'bg-red-100 text-red-700',
+                            default => 'bg-blue-100 text-blue-700',
+                        };
+                    @endphp
+
                     <div class="flex items-start gap-4 pb-4 border-b border-gray-50 last:border-0 last:pb-0">
-                        <div class="p-2 rounded-lg 
-                                @if($activity->status == 'menunggu') bg-yellow-100 text-yellow-600
-                                @elseif($activity->status == 'disetujui') bg-green-100 text-green-600
-                                @elseif($activity->status == 'ditolak') bg-red-100 text-red-600
-                                @else bg-blue-100 text-blue-600 @endif">
+
+                        <div class="p-2 rounded-lg {{ $iconColor }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </div>
+
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-bold text-gray-800 truncate">{{ $activity->nama_pemohon }}</p>
-                            <p class="text-[11px] text-gray-500 truncate">{{ $activity->jenisKegiatan?->nama ?? 'Pengajuan' }}</p>
+                            <p class="text-sm font-bold text-gray-800 truncate">
+                                {{ $activity->nama_pemohon }}
+                            </p>
+
+                            <p class="text-[11px] text-gray-500 truncate">
+                                {{ $activity->jenisKegiatan?->nama ?? 'Pengajuan' }}
+                            </p>
+
                             <div class="flex items-center justify-between mt-1">
-                                <span
-                                    class="text-[9px] text-gray-400 font-medium">{{ $activity->created_at->diffForHumans() }}</span>
-                                <span class="px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-tighter
-                                        @if($activity->status == 'menunggu') bg-yellow-100 text-yellow-700
-                                        @elseif($activity->status == 'disetujui') bg-green-100 text-green-700
-                                        @elseif($activity->status == 'ditolak') bg-red-100 text-red-700
-                                        @else bg-blue-100 text-blue-700 @endif">
+                                <span class="text-[9px] text-gray-400 font-medium">
+                                    {{ $activity->created_at->diffForHumans() }}
+                                </span>
+
+                                <span class="px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-tighter {{ $badgeColor }}">
                                     {{ $activity->status }}
                                 </span>
                             </div>
                         </div>
+
                     </div>
+
                 @empty
+
                     <p class="text-sm text-gray-400 italic text-center py-10">Belum ada aktivitas.</p>
                 @endforelse
             </div>
