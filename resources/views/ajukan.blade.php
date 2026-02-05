@@ -1,7 +1,18 @@
 <x-app-layout>
     <div class="max-w-5xl mx-auto px-4 py-10">
 
-        <h1 class="text-3xl font-bold mb-4">Pengajuan SIMAKSI</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Pengajuan SIMAKSI</h1>
+            <a href="{{ route('dashboard') }}"
+                class="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali ke Dashboard
+            </a>
+        </div>
 
         <!-- Peringatan -->
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 text-sm text-yellow-800">
@@ -31,7 +42,7 @@
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
                         <div>
-                            <label class="block text-gray-700 font-medium mb-2">Identitas (NIM/KTP/NIK)</label>
+                            <label class="block text-gray-700 font-medium mb-2">Nomor Identitas (NIM/NIK)</label>
                             <input type="text" name="identitas"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
@@ -47,8 +58,8 @@
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-gray-700 font-medium mb-2">Lokasi Kegiatan</label>
-                            <input type="text" name="lokasi" required placeholder="Contoh: Plawangan, Kaliadem, dll."
+                            <label class="block text-gray-700 font-medium mb-2">Lokasi Kegiatan secara Spesifik</label>
+                            <input type="text" name="lokasi" required
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
                         <div class="md:col-span-2">
@@ -136,7 +147,8 @@
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2">
                         </div>
                         <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Identitas (NIM/KTP)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Identitas
+                                (NIM/NIK)</label>
                             <input type="text" name="anggota[0][identitas]"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2">
                         </div>
@@ -155,14 +167,11 @@
                 </div>
             </div>
 
-            <!-- ACTION -->
-            <div class="flex items-center space-x-4">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
-                    Ajukan SIMAKSI
+            <div class="flex items-center">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-green-200 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    Ajukan SIMAKSI Sekarang
                 </button>
-                <a href="{{ route('dashboard') }}" class="text-green-600 hover:underline">
-                    ← Kembali
-                </a>
             </div>
         </form>
     </div>
@@ -328,7 +337,7 @@
                         class="w-full border border-gray-300 rounded-lg px-3 py-2">
                 </div>
                 <div class="flex-1">
-                    <label class="block text-sm text-gray-700 mb-1">Identitas (NIM/KTP)</label>
+                    <label class="block text-sm text-gray-700 mb-1">Nomor Identitas (NIM/NIK)</label>
                     <input type="text" name="anggota[${nextIndex}][identitas]"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2">
                 </div>

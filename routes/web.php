@@ -70,6 +70,27 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
     Route::patch('/admin/pengajuan/{pengajuan}/status', [\App\Http\Controllers\Admin\PengajuanController::class, 'updateStatus'])
         ->name('admin.pengajuan.status');
+
+    Route::patch('/admin/pengajuan/{pengajuan}/data', [\App\Http\Controllers\Admin\PengajuanController::class, 'updateData'])
+        ->name('admin.pengajuan.data');
+
+    // PDF SIMAKSI
+    Route::post('/admin/pengajuan/{pengajuan}/generate-pdf', [\App\Http\Controllers\Admin\SimaksiApprovalController::class, 'store'])
+        ->name('admin.pengajuan.generate-pdf');
+    Route::get('/admin/pengajuan/{pengajuan}/preview-pdf', [\App\Http\Controllers\Admin\SimaksiApprovalController::class, 'previewPDF'])
+        ->name('admin.pengajuan.preview-pdf');
+    Route::get('/admin/pengajuan/{pengajuan}/download-pdf', [\App\Http\Controllers\Admin\SimaksiApprovalController::class, 'downloadPDF'])
+        ->name('admin.pengajuan.download-pdf');
+
+    // Pengaturan
+    Route::get('/admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])
+        ->name('admin.settings.index');
+    // Laporan
+    Route::get('/admin/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])
+        ->name('admin.laporan.index');
+
+    Route::post('/admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])
+        ->name('admin.settings.update');
 });
 
 /*

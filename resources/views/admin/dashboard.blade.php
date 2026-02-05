@@ -79,44 +79,7 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Visual (Mock/Placeholder for Chart) -->
-        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 class="font-bold text-gray-700 mb-6">Distribusi Pengajuan</h3>
-            <div
-                class="h-64 flex items-center justify-center bg-gray-50 rounded-xl border border-dashed border-gray-300 relative overflow-hidden">
-                <!-- Simple CSS representation of a pie chart -->
-                <div
-                    class="w-48 h-48 rounded-full border-[1.5rem] border-green-700 relative flex items-center justify-center">
-                    <div
-                        class="absolute w-full h-full rounded-full border-[1.5rem] border-green-500 rotate-[45deg] clip-slice">
-                    </div>
-                    <div
-                        class="absolute w-full h-full rounded-full border-[1.5rem] border-green-200 rotate-[180deg] clip-slice">
-                    </div>
-                    <div class="text-center">
-                        <p class="text-2xl font-bold text-green-800">100%</p>
-                        <p class="text-[10px] text-gray-500 uppercase">Aktif</p>
-                    </div>
-                </div>
 
-                <div class="absolute bottom-4 left-6 flex gap-4 text-xs font-medium text-gray-600">
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 bg-green-700 rounded-full"></div> Penelitian
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div> Pendidikan
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 bg-green-200 rounded-full"></div> Komersial
-                    </div>
-                </div>
-            </div>
-            <style>
-                .clip-slice {
-                    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
-                }
-            </style>
-        </div>
 
         <!-- Recent Activity -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
@@ -125,14 +88,14 @@
                 @forelse($recentActivity as $activity)
 
                     @php
-                        $iconColor = match($activity->status) {
+                        $iconColor = match ($activity->status) {
                             'menunggu' => 'bg-yellow-100 text-yellow-600',
                             'disetujui' => 'bg-green-100 text-green-600',
                             'ditolak' => 'bg-red-100 text-red-600',
                             default => 'bg-blue-100 text-blue-600',
                         };
 
-                        $badgeColor = match($activity->status) {
+                        $badgeColor = match ($activity->status) {
                             'menunggu' => 'bg-yellow-100 text-yellow-700',
                             'disetujui' => 'bg-green-100 text-green-700',
                             'ditolak' => 'bg-red-100 text-red-700',
@@ -164,7 +127,8 @@
                                     {{ $activity->created_at->diffForHumans() }}
                                 </span>
 
-                                <span class="px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-tighter {{ $badgeColor }}">
+                                <span
+                                    class="px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-tighter {{ $badgeColor }}">
                                     {{ $activity->status }}
                                 </span>
                             </div>

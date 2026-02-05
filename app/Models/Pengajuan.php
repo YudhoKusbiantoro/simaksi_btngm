@@ -49,4 +49,9 @@ class Pengajuan extends Model
     {
         return $this->hasMany(PengajuanStatusLog::class)->orderBy('created_at', 'asc');
     }
+
+    public function approval()
+    {
+        return $this->hasOne(SimaksiApproval::class);
+    }
 }

@@ -48,4 +48,22 @@ class PengajuanController extends Controller
 
         return redirect()->back()->with('success', 'Status pengajuan berhasil diperbarui.');
     }
+
+    public function updateData(Request $request, Pengajuan $pengajuan)
+    {
+        $validated = $request->validate([
+            'nama_pemohon' => 'required|string|max:255',
+            'identitas' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'instansi' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'tujuan' => 'required|string',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        $pengajuan->update($validated);
+
+        return redirect()->back()->with('success', 'Data pengajuan berhasil diperbarui.');
+    }
 }
