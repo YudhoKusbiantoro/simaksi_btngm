@@ -45,14 +45,6 @@ class LaporanController extends Controller
             ];
         });
 
-        // Laporan per Jenis Kegiatan (OVERALL - for Pie Chart)
-        $laporanJenisOverall = $jenisKegiatan->map(function ($jenis) {
-            return [
-                'nama' => $jenis->nama,
-                'total' => Pengajuan::where('jenis_kegiatan_id', $jenis->id)->count(),
-            ];
-        });
-
         // Rekap Kewarganegaraan
 
         // Rekap Kewarganegaraan
@@ -91,25 +83,41 @@ class LaporanController extends Controller
             array_unshift($years, now()->year);
         }
 
-        // Monthly Trend Data (for selected year)
+        // Monthly Trend Data (filtered by selected filters)
         $monthlyTrendLabels = [];
         $monthlyTrendData = [];
         for ($i = 1; $i <= 12; $i++) {
             $monthlyTrendLabels[] = $months[$i];
-            $count = Pengajuan::whereYear('created_at', $selectedYear)
-                ->whereMonth('created_at', $i)
-                ->count();
-            $monthlyTrendData[] = $count;
+            $monthlyQuery = Pengajuan::whereYear('created_at', $selectedYear)
+                ->whereMonth('created_at', $i);
+
+            // Apply jenis kegiatan filter if selected
+            if ($selectedJenisKegiatan) {
+                $monthlyQuery->where('jenis_kegiatan_id', $selectedJenisKegiatan);
+            }
+
+            $monthlyTrendData[] = $monthlyQuery->count();
         }
 
-        // Yearly Comparison Data (last 5 years or available years)
+        // Yearly Comparison Data (filtered by selected filters, excluding year filter)
         $yearlyComparisonLabels = [];
         $yearlyComparisonData = [];
         $availableYears = array_slice($years, 0, 5); // Get up to 5 most recent years
         foreach ($availableYears as $year) {
             $yearlyComparisonLabels[] = (string) $year;
-            $count = Pengajuan::whereYear('created_at', $year)->count();
-            $yearlyComparisonData[] = $count;
+            $yearlyQuery = Pengajuan::whereYear('created_at', $year);
+
+            // Apply month filter if selected
+            if ($selectedMonth) {
+                $yearlyQuery->whereMonth('created_at', $selectedMonth);
+            }
+
+            // Apply jenis kegiatan filter if selected
+            if ($selectedJenisKegiatan) {
+                $yearlyQuery->where('jenis_kegiatan_id', $selectedJenisKegiatan);
+            }
+
+            $yearlyComparisonData[] = $yearlyQuery->count();
         }
 
         return view('admin.laporan.index', compact(
@@ -122,7 +130,6 @@ class LaporanController extends Controller
             'rekapKewarganegaraan',
             'chartLabels',
             'chartData',
-            'laporanJenisOverall',
             'jenisKegiatan',
             'selectedJenisKegiatan',
             'monthlyTrendLabels',
@@ -130,5 +137,36 @@ class LaporanController extends Controller
             'yearlyComparisonLabels',
             'yearlyComparisonData'
         ));
+    }
+    public function getDataDetail(Request $request)
+    {
+        $selectedMonth = $request->input('month');
+        $selectedYear = $request->input('year');
+        $jenisKegiatanId = $request->input('jenis_kegiatan_id');
+
+        $query = Pengajuan::with(['user', 'jenisKegiatan'])
+            ->where('jenis_kegiatan_id', $jenisKegiatanId);
+
+        if ($selectedMonth) {
+            $query->whereMonth('created_at', $selectedMonth);
+        }
+
+        if ($selectedYear) {
+            $query->whereYear('created_at', $selectedYear);
+        }
+
+        $data = $query->latest()->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'nama_pemohon' => $item->nama_pemohon,
+                'instansi' => $item->instansi,
+                'status' => $item->status,
+                'tanggal_mulai' => Carbon::parse($item->tanggal_mulai)->format('d M Y'),
+                'tanggal_selesai' => Carbon::parse($item->tanggal_selesai)->format('d M Y'),
+                'url' => route('admin.pengajuan.show', $item->id),
+            ];
+        });
+
+        return response()->json($data);
     }
 }

@@ -156,6 +156,9 @@ class SimaksiApprovalController extends Controller
             return back()->with('error', 'File PDF tidak ditemukan di storage.');
         }
 
-        return Storage::disk('public')->download($approval->file_pdf);
+        return response()->download(
+            storage_path('app/public/' . $approval->file_pdf),
+            'nama_file.pdf'
+        );
     }
 }

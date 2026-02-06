@@ -15,6 +15,11 @@ class AdminMiddleware
             return redirect('/');
         }
 
+        // Check if admin has passed 2FA
+        if (!session()->has('admin_2fa_verified') && !$request->routeIs('admin.verify-pin')) {
+            return redirect()->route('admin.verify-pin');
+        }
+
         return $next($request);
     }
 }

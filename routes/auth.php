@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -21,6 +22,13 @@ Route::middleware('guest')->group(function () {
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    // Admin Login Routes (separate from user login)
+    Route::get('admin/login', [AdminLoginController::class, 'create'])
+        ->name('admin.login');
+
+    Route::post('admin/login', [AdminLoginController::class, 'store']);
+
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
@@ -56,4 +64,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    // Admin PIN verification routes
+    Route::get('admin/verify-pin', [AdminLoginController::class, 'showPinForm'])
+        ->name('admin.verify-pin');
+
+    Route::post('admin/verify-pin', [AdminLoginController::class, 'verifyPin']);
+
+    // Admin Logout (separate route)
+    Route::post('admin/logout', [AdminLoginController::class, 'destroy'])
+        ->name('admin.logout');
 });

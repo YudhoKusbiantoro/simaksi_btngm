@@ -88,38 +88,48 @@
         </a>
     </form>
 
-    <!-- Unified Distribution Charts Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-        <div class="p-6 border-b border-gray-50 flex items-center justify-between">
-            <h3 class="font-bold text-gray-800">Analisis Distribusi Pengajuan</h3>
-            <div class="flex gap-2">
-                <span
-                    class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded uppercase">Keseluruhan</span>
-                <span
-                    class="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-bold rounded uppercase">Terfilter</span>
+    <!-- Distribution Charts - Separated Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Pie Chart Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 border-b border-gray-50">
+                <h3 class="font-bold text-gray-800">Distribusi Jenis Kegiatan</h3>
+                <p class="text-xs text-gray-500 mt-1">
+                    {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
+                    {{ $selectedYear }}
+                </p>
+            </div>
+            <div class="p-6">
+                <div class="relative min-h-[300px] flex items-center justify-center">
+                    @if($rekapStatus['total'] > 0)
+                        <canvas id="overallChart"></canvas>
+                    @else
+                        <div class="text-center text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-2 opacity-20" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
+                            <p class="text-sm italic">Tidak ada data untuk periode ini</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-50">
-            <!-- Overall Pie Chart -->
-            <div class="p-6 flex flex-col">
-                <div class="mb-4">
-                    <p class="text-xs font-bold text-gray-500 uppercase tracking-tighter">Distribusi Semua Waktu</p>
-                </div>
-                <div class="flex-1 relative min-h-[450px] flex items-center justify-center">
-                    <canvas id="overallChart"></canvas>
-                </div>
-            </div>
 
-            <!-- Filtered Bar Chart -->
-            <div class="p-6 flex flex-col bg-gray-50/30">
-                <div class="mb-4">
-                    <p class="text-xs font-bold text-gray-500 uppercase tracking-tighter">
-                        Terfilter:
-                        {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
-                        {{ $selectedYear }}
-                    </p>
-                </div>
-                <div class="flex-1 relative min-h-[450px] flex items-center justify-center">
+        <!-- Bar Chart Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 border-b border-gray-50">
+                <h3 class="font-bold text-gray-800">Grafik Batang Jenis Kegiatan</h3>
+                <p class="text-xs text-gray-500 mt-1">
+                    {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
+                    {{ $selectedYear }}
+                </p>
+            </div>
+            <div class="p-6">
+                <div class="relative min-h-[300px] flex items-center justify-center">
                     @if($rekapStatus['total'] > 0)
                         <canvas id="periodChart"></canvas>
                     @else
@@ -185,22 +195,18 @@
                         <th
                             class="px-6 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100 text-center">
                             Jumlah</th>
-                        <th
-                            class="px-6 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100 text-right">
-                            Progress</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @forelse($laporanJenis as $laporan)
-                        @php
-                            $percentage = $rekapStatus['total'] > 0 ? round(($laporan['total'] / $rekapStatus['total']) * 100, 1) : 0;
-                        @endphp
-                        <tr class="hover:bg-gray-50/50 transition duration-150">
+                        <tr class="hover:bg-gray-50/50 transition duration-150 cursor-pointer group"
+                            onclick="showDetail({{ $laporan['id'] }}, '{{ $laporan['nama'] }}')">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-2 h-2 rounded-full"
                                         style="background-color: var(--chart-color-{{ $loop->index }})"></div>
-                                    <span class="font-bold text-gray-700 text-sm">{{ $laporan['nama'] }}</span>
+                                    <span
+                                        class="font-bold text-gray-700 text-sm group-hover:text-green-700">{{ $laporan['nama'] }}</span>
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-center">
@@ -209,19 +215,10 @@
                                     {{ $laporan['total'] }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-3">
-                                    <div class="w-24 bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                                        <div class="h-full bg-green-600 transition-all duration-1000"
-                                            style="width: {{ $percentage }}%"></div>
-                                    </div>
-                                    <span class="text-xs font-black text-gray-600 w-10">{{ $percentage }}%</span>
-                                </div>
-                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="px-6 py-20 text-center">
+                            <td colspan="2" class="px-6 py-20 text-center">
                                 <div class="text-gray-400 italic flex flex-col items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2 opacity-20" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -235,6 +232,70 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                onclick="closeModal()"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div
+                class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full border border-gray-100">
+                <div class="bg-white px-8 py-6 border-b border-gray-50 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-green-900" id="modal-title">
+                            Detail Pengajuan
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-1" id="modal-subtitle"></p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="bg-white px-8 py-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="px-4 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                        Pemohon</th>
+                                    <th class="px-4 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                        Instansi</th>
+                                    <th class="px-4 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                        Periode</th>
+                                    <th
+                                        class="px-4 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-wider text-center">
+                                        Status</th>
+                                    <th class="px-4 py-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-content-body" class="divide-y divide-gray-50">
+                                <!-- Ajax Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="modal-loader" class="py-12 text-center hidden">
+                        <div
+                            class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-green-700 border-t-transparent">
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500 font-medium">Memuat data...</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-8 py-4 text-right">
+                    <button type="button" onclick="closeModal()"
+                        class="px-6 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+                        Tutup
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -265,9 +326,9 @@
             new Chart(ctxOverall, {
                 type: 'pie',
                 data: {
-                    labels: {!! json_encode($laporanJenisOverall->pluck('nama')) !!},
+                    labels: {!! json_encode($laporanJenis->pluck('nama')) !!},
                     datasets: [{
-                        data: {!! json_encode($laporanJenisOverall->pluck('total')) !!},
+                        data: {!! json_encode($laporanJenis->pluck('total')) !!},
                         backgroundColor: colors,
                         borderWidth: 2,
                         borderColor: '#ffffff'
@@ -472,6 +533,63 @@
                     responsive: true
                 }
             });
+            // Modal Logic
+            const modal = document.getElementById('detailModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const modalContent = document.getElementById('modal-content-body');
+            const modalLoader = document.getElementById('modal-loader');
+
+            window.showDetail = function (jenisId, jenisNama) {
+                modal.classList.remove('hidden');
+                modalTitle.innerText = jenisNama;
+                modalSubtitle.innerText = 'Daftar pengaju untuk periode ini';
+                modalContent.innerHTML = '';
+                modalLoader.classList.remove('hidden');
+
+                const month = document.getElementById('month').value;
+                const year = document.getElementById('year').value;
+
+                fetch(`{{ route('admin.laporan.detail') }}?jenis_kegiatan_id=${jenisId}&month=${month}&year=${year}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        modalLoader.classList.add('hidden');
+                        if (data.length === 0) {
+                            modalContent.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-gray-400 italic text-sm">Tidak ada data ditemukan</td></tr>`;
+                            return;
+                        }
+
+                        data.forEach(item => {
+                            let statusClass = '';
+                            switch (item.status) {
+                                case 'approved': statusClass = 'bg-green-100 text-green-700'; break;
+                                case 'pending': statusClass = 'bg-yellow-100 text-yellow-700'; break;
+                                case 'rejected': statusClass = 'bg-red-100 text-red-700'; break;
+                                default: statusClass = 'bg-gray-100 text-gray-700';
+                            }
+
+                            modalContent.innerHTML += `
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-800">${item.nama_pemohon}</td>
+                                    <td class="px-4 py-4 text-xs text-gray-500">${item.instansi || '-'}</td>
+                                    <td class="px-4 py-4 text-xs text-gray-500">${item.tanggal_mulai} - ${item.tanggal_selesai}</td>
+                                    <td class="px-4 py-4 text-center">
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase ${statusClass}">
+                                            ${item.status}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4 text-right">
+                                        <a href="${item.url}" class="text-green-600 hover:text-green-800 font-bold text-xs uppercase tracking-widest">Detail →</a>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    });
+            };
+
+            window.closeModal = function () {
+                modal.classList.add('hidden');
+            };
         });
     </script>
 </x-admin-layout>

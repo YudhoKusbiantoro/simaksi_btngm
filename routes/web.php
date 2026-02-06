@@ -88,6 +88,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     // Laporan
     Route::get('/admin/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])
         ->name('admin.laporan.index');
+    Route::get('/admin/laporan/detail', [\App\Http\Controllers\Admin\LaporanController::class, 'getDataDetail'])
+        ->name('admin.laporan.detail');
 
     Route::post('/admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])
         ->name('admin.settings.update');

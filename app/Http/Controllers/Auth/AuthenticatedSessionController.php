@@ -45,12 +45,18 @@ class AuthenticatedSessionController extends Controller
     }
     protected function authenticated(Request $request, $user)
     {
-        session()->flash('success', 'Login berhasil!');
-
-        // Admin masuk dashboard admin
+        // Block admin from logging in via general user login page
         if ($user->is_admin) {
-            return redirect()->route('admin.dashboard');
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akses ditolak',
+            ]);
         }
+
+        session()->flash('success', 'Login berhasil!');
 
         // User biasa masuk halaman utama
         return redirect()->route('home');
