@@ -29,13 +29,17 @@ class PengajuanController extends Controller
     public function updateStatus(Request $request, Pengajuan $pengajuan)
     {
         $request->validate([
-            'status' => 'required|in:menunggu,disetujui,ditolak,revisi',
+            'status' => 'required|in:menunggu,disetujui,dijadwalkan presentasi,revisi',
             'catatan' => 'nullable|string',
+            'zoom_link' => 'nullable|url',
+            'jadwal_presentasi' => 'nullable|date',
         ]);
 
         $pengajuan->update([
             'status' => $request->status,
             'catatan' => $request->catatan,
+            'zoom_link' => $request->status === 'dijadwalkan presentasi' ? $request->zoom_link : $pengajuan->zoom_link,
+            'jadwal_presentasi' => $request->status === 'dijadwalkan presentasi' ? $request->jadwal_presentasi : $pengajuan->jadwal_presentasi,
             'is_revisi_submitted' => false,
         ]);
 

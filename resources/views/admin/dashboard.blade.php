@@ -61,19 +61,20 @@
             </div>
         </div>
 
-        <!-- Ditolak -->
+        <!-- Dijadwalkan Presentasi -->
         <div
             class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 hover:shadow-md transition">
-            <div class="p-3 bg-red-50 rounded-xl text-red-600">
+            <div class="p-3 bg-blue-50 rounded-xl text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Ditolak</p>
-                <h3 class="text-3xl font-bold text-gray-800">{{ $rejected }}</h3>
+                <p class="text-sm text-gray-500 font-medium uppercase tracking-wider text-[10px]">Dijadwalkan Presentasi
+                </p>
+                <h3 class="text-3xl font-bold text-gray-800">{{ $scheduled }}</h3>
             </div>
         </div>
     </div>
@@ -91,15 +92,17 @@
                         $iconColor = match ($activity->status) {
                             'menunggu' => 'bg-yellow-100 text-yellow-600',
                             'disetujui' => 'bg-green-100 text-green-600',
-                            'ditolak' => 'bg-red-100 text-red-600',
-                            default => 'bg-blue-100 text-blue-600',
+                            'dijadwalkan presentasi' => 'bg-blue-100 text-blue-600',
+                            'revisi' => 'bg-purple-100 text-purple-600',
+                            default => 'bg-gray-100 text-gray-600',
                         };
 
                         $badgeColor = match ($activity->status) {
                             'menunggu' => 'bg-yellow-100 text-yellow-700',
                             'disetujui' => 'bg-green-100 text-green-700',
-                            'ditolak' => 'bg-red-100 text-red-700',
-                            default => 'bg-blue-100 text-blue-700',
+                            'dijadwalkan presentasi' => 'bg-blue-100 text-blue-700',
+                            'revisi' => 'bg-purple-100 text-purple-700',
+                            default => 'bg-gray-100 text-gray-700',
                         };
                     @endphp
 

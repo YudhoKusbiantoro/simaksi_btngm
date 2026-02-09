@@ -143,19 +143,17 @@
                 <p>Sistem Informasi Manajemen Akses Kawasan</p>
             </div>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" autocomplete="off">
                 @csrf
 
                 <label>Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required autofocus>
+                <input type="email" name="email" value="" required autocomplete="off">
 
                 <label>Password</label>
-                <input type="password" name="password" required autocomplete="current-password"
-                    style="margin-bottom: 4px;">
+                <input type="password" name="password" required autocomplete="new-password" style="margin-bottom: 4px;">
 
                 @if($errors->any())
-                    <p
-                        style="color: #ff4d4d; font-size: 13px; margin-top: 0; margin-bottom: 16px; font-weight: 700;">
+                    <p style="color: #ff4d4d; font-size: 13px; margin-top: 0; margin-bottom: 16px; font-weight: 700;">
                         {{ $errors->first() }}
                     </p>
                 @endif

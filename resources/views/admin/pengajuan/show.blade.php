@@ -387,8 +387,8 @@
                                 $colors = [
                                     'menunggu' => 'bg-yellow-100 text-yellow-800',
                                     'disetujui' => 'bg-green-100 text-green-800',
-                                    'ditolak' => 'bg-red-100 text-red-800',
-                                    'revisi' => 'bg-blue-100 text-blue-800',
+                                    'dijadwalkan presentasi' => 'bg-blue-100 text-blue-800',
+                                    'revisi' => 'bg-purple-100 text-purple-800',
                                 ];
                             @endphp
                             <span
@@ -404,19 +404,48 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Ubah Ke</label>
-                            <select name="status"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4">
+                            <select name="status" id="statusSelect"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4"
+                                onchange="toggleSchedulingFields()">
                                 <option value="menunggu" {{ $pengajuan->status == 'menunggu' ? 'selected' : '' }}>Menunggu
                                 </option>
                                 <option value="disetujui" {{ $pengajuan->status == 'disetujui' ? 'selected' : '' }}>
                                     Disetujui</option>
-                                <option value="ditolak" {{ $pengajuan->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                <option value="dijadwalkan presentasi" {{ $pengajuan->status == 'dijadwalkan presentasi' ? 'selected' : '' }}>
+                                    Dijadwalkan Presentasi
                                 </option>
                                 <option value="revisi" {{ $pengajuan->status == 'revisi' ? 'selected' : '' }}>Revisi
                                 </option>
                             </select>
                         </div>
+
+                        <div id="schedulingFields"
+                            class="{{ $pengajuan->status !== 'dijadwalkan presentasi' ? 'hidden' : '' }} space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Link Zoom / Meeting</label>
+                                <input type="url" name="zoom_link" value="{{ $pengajuan->zoom_link }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                                    placeholder="https://zoom.us/j/...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Jadwal Presentasi</label>
+                                <input type="datetime-local" name="jadwal_presentasi"
+                                    value="{{ $pengajuan->jadwal_presentasi ? \Carbon\Carbon::parse($pengajuan->jadwal_presentasi)->format('Y-m-d\TH:i') : '' }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                            </div>
+                        </div>
+
+                        <script>
+                            function toggleSchedulingFields() {
+                                const status = document.getElementById('statusSelect').value;
+                                const fields = document.getElementById('schedulingFields');
+                                if (status === 'dijadwalkan presentasi') {
+                                    fields.classList.remove('hidden');
+                                } else {
+                                    fields.classList.add('hidden');
+                                }
+                            }
+                        </script>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Catatan dari Admin</label>
@@ -442,21 +471,23 @@
                         <div class="relative">
                             <!-- Bullet -->
                             <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full border-2 border-white 
-                                                                    @if($log->status == 'menunggu') bg-yellow-400 
-                                                                    @elseif($log->status == 'revisi') bg-blue-500 
-                                                                    @elseif($log->status == 'sudah di revisi') bg-purple-500 
-                                                                    @elseif($log->status == 'disetujui') bg-green-500 
-                                                                    @else bg-red-500 @endif shadow-sm">
+                                                                        @if($log->status == 'menunggu') bg-yellow-400 
+                                                                        @elseif($log->status == 'revisi') bg-purple-500 
+                                                                        @elseif($log->status == 'sudah di revisi') bg-blue-500 
+                                                                        @elseif($log->status == 'disetujui') bg-green-500 
+                                                                        @elseif($log->status == 'dijadwalkan presentasi') bg-blue-400 
+                                                                        @else bg-gray-500 @endif shadow-sm">
                             </div>
 
                             <div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold uppercase tracking-wider 
-                                                                        @if($log->status == 'menunggu') text-yellow-700 
-                                                                        @elseif($log->status == 'revisi') text-blue-700 
-                                                                        @elseif($log->status == 'sudah di revisi') text-purple-700 
-                                                                        @elseif($log->status == 'disetujui') text-green-700 
-                                                                        @else text-red-700 @endif">
+                                                                            @if($log->status == 'menunggu') text-yellow-700 
+                                                                            @elseif($log->status == 'revisi') text-purple-700 
+                                                                            @elseif($log->status == 'sudah di revisi') text-blue-700 
+                                                                            @elseif($log->status == 'disetujui') text-green-700 
+                                                                            @elseif($log->status == 'dijadwalkan presentasi') text-blue-800 
+                                                                            @else text-gray-700 @endif">
                                         {{ $log->status == 'sudah di revisi' ? 'SUDAH DIREVISI' : ucfirst($log->status) }}
                                     </span>
                                     <span class="text-[10px] text-gray-400">

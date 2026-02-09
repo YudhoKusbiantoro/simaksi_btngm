@@ -197,15 +197,14 @@
                 <p>SIMAKSI TNGM - Administrator Access</p>
             </div>
 
-            <form method="POST" action="{{ route('admin.login') }}">
+            <form method="POST" action="{{ route('admin.login') }}" autocomplete="off">
                 @csrf
 
                 <label>Email Administrator</label>
-                <input type="email" name="email" value="{{ old('email') }}" placeholder="admin@example.com" required
-                    autofocus>
+                <input type="email" name="email" value="" placeholder="admin@example.com" required autocomplete="off">
 
                 <label>Password</label>
-                <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
+                <input type="password" name="password" required autocomplete="new-password" placeholder="••••••••"
                     style="margin-bottom: 4px;">
 
                 @if($errors->any())

@@ -24,6 +24,8 @@ class Pengajuan extends Model
         'lokasi',
         'catatan',
         'is_revisi_submitted',
+        'zoom_link',
+        'jadwal_presentasi',
     ];
 
     public function user()

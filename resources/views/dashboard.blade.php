@@ -70,22 +70,33 @@
                                         <span class="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
                                             Disetujui
                                         </span>
-                                    @elseif($pengajuan->status === 'revisi')
+                                    @elseif($pengajuan->status === 'dijadwalkan presentasi')
                                         <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                                            Dijadwalkan Presentasi
+                                        </span>
+                                    @elseif($pengajuan->status === 'revisi')
+                                        <span class="px-2 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-semibold">
                                             Revisi
                                         </span>
                                     @else
-                                        <span class="px-2 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold">
-                                            Ditolak
+                                        <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-800 text-xs font-semibold">
+                                            {{ ucfirst($pengajuan->status) }}
                                         </span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-gray-500">
                                     {{ $pengajuan->created_at->format('d M Y') }}
-                                    @if($pengajuan->catatan && in_array($pengajuan->status, ['revisi', 'ditolak']))
+                                    @if($pengajuan->catatan && in_array($pengajuan->status, ['revisi', 'dijadwalkan presentasi']))
                                         <div class="mt-1 text-[10px] text-red-500 italic max-w-xs truncate"
                                             title="{{ $pengajuan->catatan }}">
                                             Obs: {{ $pengajuan->catatan }}
+                                        </div>
+                                    @endif
+                                    @if($pengajuan->status === 'dijadwalkan presentasi' && $pengajuan->zoom_link)
+                                        <div class="mt-2 p-2 bg-blue-50 border border-blue-100 rounded text-[10px]">
+                                            <p class="font-bold text-blue-700">Jadwal Presentasi:</p>
+                                            <p>{{ \Carbon\Carbon::parse($pengajuan->jadwal_presentasi)->format('d M Y, H:i') }} WIB</p>
+                                            <a href="{{ $p->zoom_link ?? $pengajuan->zoom_link }}" target="_blank" class="text-blue-600 underline font-bold mt-1 inline-block">Buka Link Zoom &rarr;</a>
                                         </div>
                                     @endif
                                 </td>
