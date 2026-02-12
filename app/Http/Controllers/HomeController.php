@@ -10,4 +10,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function harga()
+    {
+        $settings = \App\Models\Setting::where('key', 'like', 'harga_%')->get()->pluck('value', 'key');
+        return view('harga', compact('settings'));
+    }
 }

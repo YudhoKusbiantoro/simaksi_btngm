@@ -57,10 +57,33 @@
             <label for="year" class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tahun</label>
             <select name="year" id="year"
                 class="text-sm border-gray-200 rounded-lg focus:ring-green-500 focus:border-green-500 min-w-[100px]">
+                <option value="all" {{ $selectedYear == 'all' ? 'selected' : '' }}>Semua Tahun</option>
                 @foreach($years as $year)
                     <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
                 @endforeach
             </select>
+        </div>
+        <div class="flex items-end gap-2 border-l pl-3 border-gray-100">
+            <div>
+                <label for="start_year" class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Dari</label>
+                <select name="start_year" id="start_year"
+                    class="text-sm border-gray-200 rounded-lg focus:ring-green-500 focus:border-green-500 min-w-[90px]">
+                    <option value="">-</option>
+                    @foreach(array_reverse($years) as $year)
+                        <option value="{{ $year }}" {{ $startYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="end_year" class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Sampai</label>
+                <select name="end_year" id="end_year"
+                    class="text-sm border-gray-200 rounded-lg focus:ring-green-500 focus:border-green-500 min-w-[90px]">
+                    <option value="">-</option>
+                    @foreach($years as $year)
+                        <option value="{{ $year }}" {{ $endYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div>
             <label for="jenis_kegiatan_id" class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Jenis
@@ -88,15 +111,21 @@
         </a>
     </form>
 
-    <!-- Distribution Charts - Separated Cards -->
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <!-- Pie Chart Card -->
+
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-50">
                 <h3 class="font-bold text-gray-800">Distribusi Jenis Kegiatan</h3>
                 <p class="text-xs text-gray-500 mt-1">
-                    {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
-                    {{ $selectedYear }}
+                    {{ isset($months[(string) $selectedMonth]) ? $months[(string) $selectedMonth] : 'Semua Bulan' }}
+                    @if($startYear && $endYear)
+                        {{ $startYear }} - {{ $endYear }}
+                    @elseif($selectedYear == 'all')
+                        Semua Tahun
+                    @else
+                        {{ $selectedYear }}
+                    @endif
                 </p>
             </div>
             <div class="p-6">
@@ -124,8 +153,14 @@
             <div class="p-6 border-b border-gray-50">
                 <h3 class="font-bold text-gray-800">Grafik Batang Jenis Kegiatan</h3>
                 <p class="text-xs text-gray-500 mt-1">
-                    {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
-                    {{ $selectedYear }}
+                    {{ isset($months[(string) $selectedMonth]) ? $months[(string) $selectedMonth] : 'Semua Bulan' }}
+                    @if($startYear && $endYear)
+                        {{ $startYear }} - {{ $endYear }}
+                    @elseif($selectedYear == 'all')
+                        Semua Tahun
+                    @else
+                        {{ $selectedYear }}
+                    @endif
                 </p>
             </div>
             <div class="p-6">
@@ -153,7 +188,15 @@
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-50">
                 <h3 class="font-bold text-gray-800">Tren Pengajuan Bulanan</h3>
-                <p class="text-xs text-gray-500 mt-1">Pengajuan per bulan di tahun {{ $selectedYear }}</p>
+                <p class="text-xs text-gray-500 mt-1">Pengajuan per bulan
+                    @if($startYear && $endYear)
+                        ({{ $startYear }} - {{ $endYear }})
+                    @elseif($selectedYear == 'all')
+                        (Semua Tahun)
+                    @else
+                        di tahun {{ $selectedYear }}
+                    @endif
+                </p>
             </div>
             <div class="p-6">
                 <div class="relative min-h-[350px] flex items-center justify-center">
@@ -181,8 +224,14 @@
         <div class="p-6 border-b border-gray-50 flex items-center justify-between">
             <h3 class="font-bold text-gray-800">Detail Laporan Jenis Kegiatan</h3>
             <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                {{ $selectedMonth && isset($months[$selectedMonth]) ? $months[$selectedMonth] : 'Semua Bulan' }}
-                {{ $selectedYear }}
+                {{ isset($months[(string) $selectedMonth]) ? $months[(string) $selectedMonth] : 'Semua Bulan' }}
+                @if($startYear && $endYear)
+                    {{ $startYear }} - {{ $endYear }}
+                @elseif($selectedYear == 'all')
+                    Semua Tahun
+                @else
+                    {{ $selectedYear }}
+                @endif
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -421,7 +470,6 @@
                 });
             @endif
 
-            // Monthly Trend Line Chart
             const ctxMonthlyTrend = document.getElementById('monthlyTrendChart');
             new Chart(ctxMonthlyTrend, {
                 type: 'line',
@@ -549,8 +597,10 @@
 
                 const month = document.getElementById('month').value;
                 const year = document.getElementById('year').value;
+                const startYear = document.getElementById('start_year').value;
+                const endYear = document.getElementById('end_year').value;
 
-                fetch(`{{ route('admin.laporan.detail') }}?jenis_kegiatan_id=${jenisId}&month=${month}&year=${year}`)
+                fetch(`{{ route('admin.laporan.detail') }}?jenis_kegiatan_id=${jenisId}&month=${month}&year=${year}&start_year=${startYear}&end_year=${endYear}`)
                     .then(response => response.json())
                     .then(data => {
                         modalLoader.classList.add('hidden');

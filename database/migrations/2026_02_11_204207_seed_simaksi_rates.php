@@ -1,30 +1,16 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-
-class SettingSeeder extends Seeder
-{
+return new class extends Migration {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      */
-    public function run(): void
+    public function up(): void
     {
         $settings = [
-            [
-                'key' => 'kasubag_tu_nama',
-                'value' => 'Endarmiyati, S. Si, M. Sc.',
-                'label' => 'Nama Kepala Sub Bagian TU',
-                'description' => 'Nama pejabat yang akan muncul sebagai penandatangan di SIMAKSI.',
-            ],
-            [
-                'key' => 'kasubag_tu_nip',
-                'value' => '197510112002122002',
-                'label' => 'NIP Kepala Sub Bagian TU',
-                'description' => 'NIP pejabat yang akan muncul sebagai penandatangan di SIMAKSI.',
-            ],
             // Harga Penelitian WNI
             [
                 'key' => 'harga_penelitian_wni_1bln',
@@ -152,4 +138,34 @@ class SettingSeeder extends Seeder
             \App\Models\Setting::updateOrCreate(['key' => $setting['key']], $setting);
         }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        $keys = [
+            'harga_penelitian_wni_1bln',
+            'harga_penelitian_wni_1_6bln',
+            'harga_penelitian_wni_7_12bln',
+            'harga_sampel_wni',
+            'harga_penelitian_wna_1bln',
+            'harga_penelitian_wna_1_6bln',
+            'harga_penelitian_wna_7_12bln',
+            'harga_sampel_wna',
+            'harga_berkemah',
+            'harga_mendaki',
+            'harga_caving',
+            'harga_komersial_video_iklan_wna',
+            'harga_komersial_video_iklan_wni',
+            'harga_komersial_foto_wisata_wna',
+            'harga_komersial_foto_wisata_wni',
+            'harga_komersial_prewedding_wna',
+            'harga_komersial_prewedding_wni',
+            'harga_komersial_drone_wna',
+            'harga_komersial_drone_wni',
+        ];
+
+        \App\Models\Setting::whereIn('key', $keys)->delete();
+    }
+};

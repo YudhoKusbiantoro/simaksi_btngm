@@ -10,8 +10,78 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::all();
-        return view('admin.settings.index', compact('settings'));
+        $allSettings = Setting::all()->keyBy('key');
+
+        $pejabat = [
+            'label' => 'Pengaturan Pejabat Administrasi',
+            'settings' => [
+                $allSettings->get('kasubag_tu_nama'),
+                $allSettings->get('kasubag_tu_nip'),
+            ]
+        ];
+
+        $tarifGroups = [
+            'wisata' => [
+                'label' => 'Kegiatan Wisata Alam',
+                'settings' => [
+                    $allSettings->get('harga_berkemah'),
+                    $allSettings->get('harga_mendaki'),
+                    $allSettings->get('harga_caving'),
+                ]
+            ],
+            'penelitian' => [
+                'label' => 'Penelitian di Kawasan',
+                'rows' => [
+                    [
+                        'label' => 'Penelitian < 1 Bulan',
+                        'wna' => $allSettings->get('harga_penelitian_wna_1bln'),
+                        'wni' => $allSettings->get('harga_penelitian_wni_1bln'),
+                    ],
+                    [
+                        'label' => 'Penelitian 1-6 Bulan',
+                        'wna' => $allSettings->get('harga_penelitian_wna_1_6bln'),
+                        'wni' => $allSettings->get('harga_penelitian_wni_1_6bln'),
+                    ],
+                    [
+                        'label' => 'Penelitian 7-12 Bulan',
+                        'wna' => $allSettings->get('harga_penelitian_wna_7_12bln'),
+                        'wni' => $allSettings->get('harga_penelitian_wni_7_12bln'),
+                    ],
+                    [
+                        'label' => 'Izin Pengambilan Sampel',
+                        'wna' => $allSettings->get('harga_sampel_wna'),
+                        'wni' => $allSettings->get('harga_sampel_wni'),
+                    ],
+                ]
+            ],
+            'komersial' => [
+                'label' => 'Pengambilan Gambar Komersial',
+                'rows' => [
+                    [
+                        'label' => 'Videografi (Iklan, Film, Video Clip, dll)',
+                        'wna' => $allSettings->get('harga_komersial_video_iklan_wna'),
+                        'wni' => $allSettings->get('harga_komersial_video_iklan_wni'),
+                    ],
+                    [
+                        'label' => 'Fotografi (Wisata, Majalah, Iklan Produk, dll)',
+                        'wna' => $allSettings->get('harga_komersial_foto_wisata_wna'),
+                        'wni' => $allSettings->get('harga_komersial_foto_wisata_wni'),
+                    ],
+                    [
+                        'label' => 'Video dan Foto Prewedding',
+                        'wna' => $allSettings->get('harga_komersial_prewedding_wna'),
+                        'wni' => $allSettings->get('harga_komersial_prewedding_wni'),
+                    ],
+                    [
+                        'label' => 'Drone',
+                        'wna' => $allSettings->get('harga_komersial_drone_wna'),
+                        'wni' => $allSettings->get('harga_komersial_drone_wni'),
+                    ],
+                ]
+            ]
+        ];
+
+        return view('admin.settings.index', compact('pejabat', 'tarifGroups'));
     }
 
     public function update(Request $request)
@@ -22,6 +92,11 @@ class SettingController extends Controller
         ]);
 
         foreach ($data['settings'] as $key => $value) {
+            // Sanitize: remove thousand separators (dots) for tariff keys
+            if (str_starts_with($key, 'harga_')) {
+                $value = str_replace('.', '', $value);
+            }
+
             Setting::where('key', $key)->update(['value' => $value]);
         }
 

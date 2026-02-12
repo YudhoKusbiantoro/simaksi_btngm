@@ -18,9 +18,7 @@ use App\Http\Controllers\SuratController;
 
 // Halaman utama
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/harga', function () {
-    return view('harga');
-})->name('harga');
+Route::get('/harga', [HomeController::class, 'harga'])->name('harga');
 
 /*
 |--------------------------------------------------------------------------

@@ -253,13 +253,14 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-4 gap-8 text-sm">
+            <div class="grid md:grid-cols-5 gap-6 text-sm">
 
                 @foreach([
                 ['1','Pengajuan Online','Pemohon mengisi formulir permohonan melalui website SIMAKSI dengan lengkap dan benar, memilih jenis kegiatan, lokasi, serta tanggal pelaksanaan, kemudian mengunggah seluruh dokumen persyaratan yang diminta.'],
                 ['2','Verifikasi','Petugas Balai TNGM memeriksa dan memvalidasi berkas yang diajukan. Jika terdapat kekurangan atau ketidaksesuaian, pemohon diminta melakukan perbaikan dan mengunggah ulang dokumen.'],
-                ['3','Persetujuan','Apabila seluruh persyaratan telah lengkap dan sesuai ketentuan, pengajuan disetujui dan surat izin SIMAKSI diproses untuk penandatanganan oleh pejabat berwenang.'],
-                ['4','Ambil SIMAKSI','Pemohon datang langsung ke Kantor Balai TNGM untuk mengambil surat izin asli dengan membawa materai Rp10.000 3 lembar dan menunjukkan identitas diri sesuai data pengajuan.']
+                ['3','Penjadwalan Presentasi','Jika administrasi sudah lengkap, petugas akan menjadwalkan presentasi secara daring (Zoom) atau luring. Jika terdapat kendala jadwal, harap segera konfirmasi melalui WhatsApp Admin TNGM.'],
+                ['4','Persetujuan','Setelah presentasi selesai dan disetujui, surat izin SIMAKSI akan diproses untuk penandatanganan oleh pejabat berwenang.'],
+                ['5','Ambil SIMAKSI','Pemohon datang langsung ke Kantor Balai TNGM untuk mengambil surat izin asli dengan membawa materai Rp10.000 3 lembar dan menunjukkan identitas diri sesuai data pengajuan.']
                 ] as $step)
 
                 <div class="reveal group bg-green-50 rounded-2xl shadow-md p-6 text-center

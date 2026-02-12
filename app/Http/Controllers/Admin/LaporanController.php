@@ -12,18 +12,25 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $selectedMonth = $request->input('month', now()->month);
-        $selectedYear = $request->input('year', now()->year);
+        // Default only for initial load, otherwise allow null/empty
+        $selectedMonth = $request->has('month') ? $request->input('month') : now()->month;
+        $selectedYear = $request->has('year') ? $request->input('year') : now()->year;
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
         $selectedJenisKegiatan = $request->input('jenis_kegiatan_id');
 
         $query = Pengajuan::query();
 
+        // Month Filter
         if ($selectedMonth) {
             $query->whereMonth('created_at', $selectedMonth);
         }
 
-        if ($selectedYear) {
+        // Year Filter Logic (Single Year or Range)
+        if ($selectedYear && $selectedYear !== 'all') {
             $query->whereYear('created_at', $selectedYear);
+        } elseif ($startYear && $endYear) {
+            $query->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $endYear]);
         }
 
         if ($selectedJenisKegiatan) {
@@ -44,8 +51,6 @@ class LaporanController extends Controller
                 'total' => (clone $query)->where('jenis_kegiatan_id', $jenis->id)->count(),
             ];
         });
-
-        // Rekap Kewarganegaraan
 
         // Rekap Kewarganegaraan
         $rekapKewarganegaraan = [
@@ -78,20 +83,31 @@ class LaporanController extends Controller
             ->pluck('year')
             ->toArray();
 
-        // Ensure current year is in the list
         if (!in_array(now()->year, $years)) {
             array_unshift($years, now()->year);
         }
 
-        // Monthly Trend Data (filtered by selected filters)
+        // Monthly Trend Data
         $monthlyTrendLabels = [];
         $monthlyTrendData = [];
+
+        // If viewing multiple years or all time, monthly trend might show average or aggregate per month name
+        // For simplicity, we show monthly trend for THE selected year, or THE selected range if narrow, 
+        // but here we just keep it relative to the context.
+        $trendYear = ($selectedYear && $selectedYear !== 'all') ? $selectedYear : now()->year;
+
         for ($i = 1; $i <= 12; $i++) {
             $monthlyTrendLabels[] = $months[$i];
-            $monthlyQuery = Pengajuan::whereYear('created_at', $selectedYear)
-                ->whereMonth('created_at', $i);
+            $monthlyQuery = Pengajuan::whereMonth('created_at', $i);
 
-            // Apply jenis kegiatan filter if selected
+            if ($selectedYear && $selectedYear !== 'all') {
+                $monthlyQuery->whereYear('created_at', $selectedYear);
+            } elseif ($startYear && $endYear) {
+                $monthlyQuery->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $endYear]);
+            } else {
+                // All time aggregate by month
+            }
+
             if ($selectedJenisKegiatan) {
                 $monthlyQuery->where('jenis_kegiatan_id', $selectedJenisKegiatan);
             }
@@ -99,20 +115,25 @@ class LaporanController extends Controller
             $monthlyTrendData[] = $monthlyQuery->count();
         }
 
-        // Yearly Comparison Data (filtered by selected filters, excluding year filter)
+        // Yearly Comparison Data
         $yearlyComparisonLabels = [];
         $yearlyComparisonData = [];
-        $availableYears = array_slice($years, 0, 5); // Get up to 5 most recent years
-        foreach ($availableYears as $year) {
+
+        // If range is selected, show years in range. Otherwise show last 5 years.
+        if ($startYear && $endYear) {
+            $comparisonYears = range($startYear, $endYear);
+        } else {
+            $comparisonYears = array_reverse(array_slice($years, 0, 5));
+        }
+
+        foreach ($comparisonYears as $year) {
             $yearlyComparisonLabels[] = (string) $year;
             $yearlyQuery = Pengajuan::whereYear('created_at', $year);
 
-            // Apply month filter if selected
             if ($selectedMonth) {
                 $yearlyQuery->whereMonth('created_at', $selectedMonth);
             }
 
-            // Apply jenis kegiatan filter if selected
             if ($selectedJenisKegiatan) {
                 $yearlyQuery->where('jenis_kegiatan_id', $selectedJenisKegiatan);
             }
@@ -125,6 +146,8 @@ class LaporanController extends Controller
             'laporanJenis',
             'selectedMonth',
             'selectedYear',
+            'startYear',
+            'endYear',
             'months',
             'years',
             'rekapKewarganegaraan',
@@ -142,6 +165,8 @@ class LaporanController extends Controller
     {
         $selectedMonth = $request->input('month');
         $selectedYear = $request->input('year');
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
         $jenisKegiatanId = $request->input('jenis_kegiatan_id');
 
         $query = Pengajuan::with(['user', 'jenisKegiatan'])
@@ -151,8 +176,10 @@ class LaporanController extends Controller
             $query->whereMonth('created_at', $selectedMonth);
         }
 
-        if ($selectedYear) {
+        if ($selectedYear && $selectedYear !== 'all') {
             $query->whereYear('created_at', $selectedYear);
+        } elseif ($startYear && $endYear) {
+            $query->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $endYear]);
         }
 
         $data = $query->latest()->get()->map(function ($item) {
