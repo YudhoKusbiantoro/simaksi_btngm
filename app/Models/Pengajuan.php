@@ -20,6 +20,7 @@ class Pengajuan extends Model
         'identitas',
         'jabatan',
         'instansi',
+        'nomor_hp',
         'tujuan',
         'lokasi',
         'catatan',

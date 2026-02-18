@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('simaksi_approvals', function (Blueprint $table) {
-            $table->string('kode_surat')->after('nomor_surat')->default('LIT.0.0');
+        Schema::table('pengajuans', function (Blueprint $table) {
+            $table->string('nomor_hp')->nullable()->after('instansi');
         });
     }
 
@@ -20,8 +20,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('simaksi_approvals', function (Blueprint $table) {
-            $table->dropColumn('kode_surat');
+        Schema::table('pengajuans', function (Blueprint $table) {
+            $table->dropColumn('nomor_hp');
         });
     }
 };

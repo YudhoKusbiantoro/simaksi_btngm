@@ -16,14 +16,38 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'kasubag_tu_nama',
                 'value' => 'Endarmiyati, S. Si, M. Sc.',
-                'label' => 'Nama Kepala Sub Bagian TU',
-                'description' => 'Nama pejabat yang akan muncul sebagai penandatangan di SIMAKSI.',
+                'label' => 'Nama Penandatangan A',
+                'description' => 'Nama pejabat A yang akan muncul sebagai penandatangan di SIMAKSI.',
             ],
             [
                 'key' => 'kasubag_tu_nip',
                 'value' => '197510112002122002',
-                'label' => 'NIP Kepala Sub Bagian TU',
-                'description' => 'NIP pejabat yang akan muncul sebagai penandatangan di SIMAKSI.',
+                'label' => 'NIP Penandatangan A',
+                'description' => 'NIP pejabat A yang akan muncul sebagai penandatangan di SIMAKSI.',
+            ],
+            [
+                'key' => 'kasubag_tu_jabatan',
+                'value' => 'Kepala Sub Bagian TU',
+                'label' => 'Jabatan Penandatangan A',
+                'description' => 'Jabatan pejabat A yang akan muncul sebagai penandatangan di SIMAKSI.',
+            ],
+            [
+                'key' => 'ttd_2_nama',
+                'value' => '-',
+                'label' => 'Nama Penandatangan B',
+                'description' => 'Nama pejabat B yang akan muncul sebagai penandatangan di SIMAKSI.',
+            ],
+            [
+                'key' => 'ttd_2_nip',
+                'value' => '-',
+                'label' => 'NIP Penandatangan B',
+                'description' => 'NIP pejabat B yang akan muncul sebagai penandatangan di SIMAKSI.',
+            ],
+            [
+                'key' => 'ttd_2_jabatan',
+                'value' => '-',
+                'label' => 'Jabatan Penandatangan B',
+                'description' => 'Jabatan pejabat B yang akan muncul sebagai penandatangan di SIMAKSI.',
             ],
             // Harga Penelitian WNI
             [
@@ -145,6 +169,12 @@ class SettingSeeder extends Seeder
                 'value' => '2000000',
                 'label' => 'Tarif Drone (WNI)',
                 'description' => 'Tarif per paket per lokasi untuk penggunaan drone (WNI).',
+            ],
+            [
+                'key' => 'simaksi_ketentuan',
+                'value' => "Sebelum memasuki lokasi Kawasan Taman Nasional Gunung Merapi wajib melapor kepada Petugas Resor Pengelolaan TN wilayah setempat;\nSelama memasuki kawasan TN Gunung Merapi, dapat didampingi petugas dari Balai TNGM;\nJika Kegiatan dilaksanakan di Radius 5 (lima) Kilometer dari Merapi, berkoordinasi dengan BPPTKG;\nSegala resiko yang terjadi and timbul menjadi tanggung jawab pemegang ijin;\nIjin ini tidak disalahgunakan untuk tujuan yang dapat mengganggu kestabilan Pemerintah;\nBersedia Mematuhi semua peraturan perundangan yang berlaku;\nWajib memberikan laporan hasil kegiatan, paling lambat 14 hari setelah kegiatan selesai;\nWajib menyerahkan laporan hasil penelitian / kegiatan ke tngm_jogja@yahoo.com;\nDokumentasi yang dipublikasikan wajib mencantumkan logo Kementerian Kehutanan / Balai TNGM;\nSimaksi ini berlaku setelah pemegang ijin membubuhkan tanda tangan di atas materai Rp. 10.000,-.",
+                'label' => 'Ketentuan SIMAKSI',
+                'description' => 'Daftar ketentuan yang akan muncul di dokumen SIMAKSI. Pisahkan setiap poin dengan baris baru (Enter).',
             ],
         ];
 

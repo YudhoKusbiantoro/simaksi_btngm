@@ -204,7 +204,7 @@ class LaporanController extends Controller
         $endYear = $request->input('end_year');
         $selectedJenisKegiatan = $request->input('jenis_kegiatan_id');
 
-        $query = Pengajuan::with(['jenisKegiatan', 'user']);
+        $query = Pengajuan::with(['jenisKegiatan', 'user', 'approval']);
 
         // Month Filter
         if ($selectedMonth) {

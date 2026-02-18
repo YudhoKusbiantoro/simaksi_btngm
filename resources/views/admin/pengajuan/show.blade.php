@@ -51,6 +51,10 @@
                         <p class="font-medium text-gray-800">{{ $pengajuan->instansi }}</p>
                     </div>
                     <div>
+                        <p class="text-gray-500">Nomor WhatsApp / HP</p>
+                        <p class="font-medium text-gray-800">{{ $pengajuan->nomor_hp ?: '-' }}</p>
+                    </div>
+                    <div>
                         <p class="text-gray-500">Jenis Kegiatan</p>
                         <p class="font-medium text-gray-800">{{ $pengajuan->jenisKegiatan->nama }}</p>
                     </div>
@@ -116,6 +120,12 @@
                                                 required
                                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500">
                                         </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-1">Nomor WhatsApp / HP</label>
+                                        <input type="text" name="nomor_hp" value="{{ $pengajuan->nomor_hp }}"
+                                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="Contoh: 08123456789">
                                     </div>
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-1">Lokasi Kegiatan</label>
@@ -260,22 +270,22 @@
 
                                 <div class="flex flex-wrap gap-4 mb-3">
                                     @php
-                                        $currentKode = $pengajuan->approval->kode_surat ?? 'Lit.0.0';
-                                        $isPreset = in_array($currentKode, ['Lit.0.0', 'Hms.2.0']);
+                                        $currentKode = $pengajuan->approval->kode_surat ?? 'LIT.0.0';
+                                        $isPreset = in_array($currentKode, ['LIT.0.0', 'HMS.2.0']);
                                     @endphp
 
                                     <label
-                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition {{ $currentKode == 'Lit.0.0' ? 'border-green-500 bg-green-50' : 'border-gray-200' }}"
-                                        onclick="selectKode('Lit.0.0', this)">
-                                        <input type="radio" name="kode_choice" value="Lit.0.0" {{ $currentKode == 'Lit.0.0' ? 'checked' : '' }} class="text-green-600 focus:ring-green-500">
-                                        <span class="text-sm font-medium">Lit.0.0</span>
+                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition {{ $currentKode == 'LIT.0.0' ? 'border-green-500 bg-green-50' : 'border-gray-200' }}"
+                                        onclick="selectKode('LIT.0.0', this)">
+                                        <input type="radio" name="kode_choice" value="LIT.0.0" {{ $currentKode == 'LIT.0.0' ? 'checked' : '' }} class="text-green-600 focus:ring-green-500">
+                                        <span class="text-sm font-medium">LIT.0.0</span>
                                     </label>
 
                                     <label
-                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition {{ $currentKode == 'Hms.2.0' ? 'border-green-500 bg-green-50' : 'border-gray-200' }}"
-                                        onclick="selectKode('Hms.2.0', this)">
-                                        <input type="radio" name="kode_choice" value="Hms.2.0" {{ $currentKode == 'Hms.2.0' ? 'checked' : '' }} class="text-green-600 focus:ring-green-500">
-                                        <span class="text-sm font-medium">Hms.2.0</span>
+                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition {{ $currentKode == 'HMS.2.0' ? 'border-green-500 bg-green-50' : 'border-gray-200' }}"
+                                        onclick="selectKode('HMS.2.0', this)">
+                                        <input type="radio" name="kode_choice" value="HMS.2.0" {{ $currentKode == 'HMS.2.0' ? 'checked' : '' }} class="text-green-600 focus:ring-green-500">
+                                        <span class="text-sm font-medium">HMS.2.0</span>
                                     </label>
 
                                     <label
@@ -328,6 +338,124 @@
                                 <p class="text-[10px] text-gray-400 mt-2">*Kode ini akan disisipkan di tengah nomor surat.
                                 </p>
                             </div>
+
+                            <hr class="my-2 border-gray-100">
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Penandatangan SIMAKSI</label>
+
+                                <div class="flex flex-wrap gap-4 mb-3">
+                                    <label
+                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition border-green-500 bg-green-50"
+                                        onclick="selectTtd('ttd_a', this)">
+                                        <input type="radio" name="ttd_choice" value="ttd_a" checked class="text-green-600 focus:ring-green-500">
+                                        <div class="text-xs">
+                                            <p class="font-bold">Penandatangan A</p>
+                                            <p class="text-gray-500 leading-tight">{{ $ttd_a['nama'] }}</p>
+                                        </div>
+                                    </label>
+
+                                    <label
+                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition border-gray-200"
+                                        onclick="selectTtd('ttd_b', this)">
+                                        <input type="radio" name="ttd_choice" value="ttd_b" class="text-green-600 focus:ring-green-500">
+                                        <div class="text-xs">
+                                            <p class="font-bold">Penandatangan B</p>
+                                            <p class="text-gray-500 leading-tight">{{ $ttd_b['nama'] ?: 'Belum diatur' }}</p>
+                                        </div>
+                                    </label>
+
+                                    <label
+                                        class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition border-gray-200"
+                                        onclick="selectTtd('manual', this)">
+                                        <input type="radio" name="ttd_choice" value="manual" class="text-green-600 focus:ring-green-500">
+                                        <div class="text-xs">
+                                            <p class="font-bold">Manual / Opsional</p>
+                                            <p class="text-gray-500 leading-tight">Isi manual sendiri</p>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                                    <div class="md:col-span-2">
+                                        <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Nama Lengkap & Gelar</label>
+                                        <input type="text" id="ttd_nama" name="penandatangan_nama" required
+                                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500 bg-gray-50"
+                                            value="{{ $ttd_a['nama'] }}" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">NIP</label>
+                                        <input type="text" id="ttd_nip" name="penandatangan_nip" required
+                                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500 bg-gray-50"
+                                            value="{{ $ttd_a['nip'] }}" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Jabatan</label>
+                                        <input type="text" id="ttd_jabatan" name="penandatangan_jabatan" required
+                                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500 bg-gray-50"
+                                            value="{{ $ttd_a['jabatan'] }}" readonly>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    const ttd_data = {
+                                        'ttd_a': {
+                                            'nama': @json($ttd_a['nama']),
+                                            'nip': @json($ttd_a['nip']),
+                                            'jabatan': @json($ttd_a['jabatan'])
+                                        },
+                                        'ttd_b': {
+                                            'nama': @json($ttd_b['nama']),
+                                            'nip': @json($ttd_b['nip']),
+                                            'jabatan': @json($ttd_b['jabatan'])
+                                        },
+                                        'manual': {
+                                            'nama': '',
+                                            'nip': '',
+                                            'jabatan': ''
+                                        }
+                                    };
+
+                                    function selectTtd(type, el) {
+                                        // Highlight UI
+                                        el.parentNode.querySelectorAll('label').forEach(label => {
+                                            label.classList.remove('border-green-500', 'bg-green-50');
+                                            label.classList.add('border-gray-200');
+                                        });
+                                        el.classList.add('border-green-500', 'bg-green-50');
+                                        el.classList.remove('border-gray-200');
+                                        el.querySelector('input').checked = true;
+
+                                        // Set values
+                                        const namaInput = document.getElementById('ttd_nama');
+                                        const nipInput = document.getElementById('ttd_nip');
+                                        const jabatanInput = document.getElementById('ttd_jabatan');
+
+                                        namaInput.value = ttd_data[type].nama;
+                                        nipInput.value = ttd_data[type].nip;
+                                        jabatanInput.value = ttd_data[type].jabatan;
+
+                                        if (type === 'manual') {
+                                            namaInput.readOnly = false;
+                                            nipInput.readOnly = false;
+                                            jabatanInput.readOnly = false;
+                                            namaInput.classList.remove('bg-gray-50');
+                                            nipInput.classList.remove('bg-gray-50');
+                                            jabatanInput.classList.remove('bg-gray-50');
+                                            namaInput.focus();
+                                        } else {
+                                            namaInput.readOnly = true;
+                                            nipInput.readOnly = true;
+                                            jabatanInput.readOnly = true;
+                                            namaInput.classList.add('bg-gray-50');
+                                            nipInput.classList.add('bg-gray-50');
+                                            jabatanInput.classList.add('bg-gray-50');
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+                            <hr class="my-2 border-gray-100">
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Surat

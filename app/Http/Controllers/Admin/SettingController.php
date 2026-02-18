@@ -13,10 +13,24 @@ class SettingController extends Controller
         $allSettings = Setting::all()->keyBy('key');
 
         $pejabat = [
-            'label' => 'Pengaturan Pejabat Administrasi',
+            'label' => 'Pengaturan Penandatangan (TTD)',
             'settings' => [
-                $allSettings->get('kasubag_tu_nama'),
-                $allSettings->get('kasubag_tu_nip'),
+                'ttd_a' => [
+                    'label' => 'Penandatangan A (Default)',
+                    'fields' => [
+                        $allSettings->get('kasubag_tu_nama'),
+                        $allSettings->get('kasubag_tu_nip'),
+                        $allSettings->get('kasubag_tu_jabatan'),
+                    ]
+                ],
+                'ttd_b' => [
+                    'label' => 'Penandatangan B',
+                    'fields' => [
+                        $allSettings->get('ttd_2_nama'),
+                        $allSettings->get('ttd_2_nip'),
+                        $allSettings->get('ttd_2_jabatan'),
+                    ]
+                ],
             ]
         ];
 
@@ -81,7 +95,14 @@ class SettingController extends Controller
             ]
         ];
 
-        return view('admin.settings.index', compact('pejabat', 'tarifGroups'));
+        $simaksi = [
+            'label' => 'Ketentuan Masuk Kawasan (SIMAKSI)',
+            'settings' => [
+                $allSettings->get('simaksi_ketentuan'),
+            ]
+        ];
+
+        return view('admin.settings.index', compact('pejabat', 'tarifGroups', 'simaksi'));
     }
 
     public function update(Request $request)

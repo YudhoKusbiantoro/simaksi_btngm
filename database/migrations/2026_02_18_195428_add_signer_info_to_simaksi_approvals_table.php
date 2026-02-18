@@ -11,7 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('simaksi_approvals', function (Blueprint $table) {
-            $table->string('kode_surat')->after('nomor_surat')->default('LIT.0.0');
+            $table->string('penandatangan_nama')->nullable()->after('tembusan');
+            $table->string('penandatangan_nip')->nullable()->after('penandatangan_nama');
+            $table->string('penandatangan_jabatan')->nullable()->after('penandatangan_nip');
         });
     }
 
@@ -21,7 +23,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('simaksi_approvals', function (Blueprint $table) {
-            $table->dropColumn('kode_surat');
+            $table->dropColumn(['penandatangan_nama', 'penandatangan_nip', 'penandatangan_jabatan']);
         });
     }
 };

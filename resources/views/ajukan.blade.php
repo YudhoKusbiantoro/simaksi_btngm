@@ -57,6 +57,11 @@
                             <input type="text" name="instansi" required placeholder="Universitas, Sekolah, Perusahaan"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
                         </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Nomor WhatsApp / HP</label>
+                            <input type="text" name="nomor_hp" placeholder="Contoh: 08123456789"
+                                class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                        </div>
                         <div class="md:col-span-2">
                             <label class="block text-gray-700 font-medium mb-2">Lokasi Kegiatan secara Spesifik</label>
                             <input type="text" name="lokasi" required

@@ -261,6 +261,11 @@
                     <td>{{ $pengajuan->identitas }}</td>
                 </tr>
                 <tr>
+                    <td class="label-wide">No. HP</td>
+                    <td class="colon">:</td>
+                    <td>{{ $pengajuan->nomor_hp }}</td>
+                </tr>
+                <tr>
                     <td class="label-wide">Jabatan</td>
                     <td class="colon">:</td>
                     <td>{{ $pengajuan->jabatan }}</td>
@@ -283,8 +288,9 @@
                 <tr>
                     <td class="label-wide">Waktu</td>
                     <td class="colon">:</td>
-                    <td>{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->translatedFormat('d F Y') }} s.d
-                        {{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->translatedFormat('d F Y') }}
+                    <td>{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }}
+                        s.d
+                        {{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->locale('id')->translatedFormat('d F Y') }}
                     </td>
                 </tr>
                 <tr>
@@ -308,49 +314,13 @@
         <div class="content-section">
             <p style="margin-bottom: 2px;">3. Dengan ketentuan :</p>
             <table class="table-full" style="margin-left: 15px; width: calc(100% - 15px);">
-                <tr>
-                    <td style="width: 20px;">a.</td>
-                    <td>Sebelum memasuki lokasi Kawasan Taman Nasional Gunung Merapi wajib melapor kepada Petugas Resor
-                        Pengelolaan TN wilayah setempat;</td>
-                </tr>
-                <tr>
-                    <td>b.</td>
-                    <td>Selama memasuki kawasan TN Gunung Merapi, dapat didampingi petugas dari Balai TNGM;</td>
-                </tr>
-                <tr>
-                    <td>c.</td>
-                    <td>Jika Kegiatan dilaksanakan di Radius 5 (lima) Kilometer dari Merapi, berkoordinasi dengan
-                        BPPTKG;</td>
-                </tr>
-                <tr>
-                    <td>d.</td>
-                    <td>Segala resiko yang terjadi and timbul menjadi tanggung jawab pemegang ijin;</td>
-                </tr>
-                <tr>
-                    <td>e.</td>
-                    <td>Ijin ini tidak disalahgunakan untuk tujuan yang dapat mengganggu kestabilan Pemerintah;</td>
-                </tr>
-                <tr>
-                    <td>f.</td>
-                    <td>Bersedia Mematuhi semua peraturan perundangan yang berlaku;</td>
-                </tr>
-                <tr>
-                    <td>g.</td>
-                    <td>Wajib memberikan laporan hasil kegiatan, paling lambat 14 hari setelah kegiatan selesai;</td>
-                </tr>
-                <tr>
-                    <td>h.</td>
-                    <td>Wajib menyerahkan laporan hasil penelitian / kegiatan ke tngm_jogja@yahoo.com;</td>
-                </tr>
-                <tr>
-                    <td>i.</td>
-                    <td>Dokumentasi yang dipublikasikan wajib mencantumkan logo Kementerian Kehutanan / Balai TNGM;</td>
-                </tr>
-                <tr>
-                    <td>j.</td>
-                    <td>Simaksi ini berlaku setelah pemegang ijin membubuhkan tanda tangan di atas materai Rp. 10.000,-.
-                    </td>
-                </tr>
+                @php $alphabet = range('a', 'z'); @endphp
+                @foreach($ketentuan as $index => $item)
+                    <tr>
+                        <td style="width: 20px;">{{ $alphabet[$index] ?? ($index + 1) }}.</td>
+                        <td>{{ $item }}</td>
+                    </tr>
+                @endforeach
             </table>
         </div>
 
@@ -393,7 +363,7 @@
 
                     <div style="margin-top:10px;">
                         <p style="margin:0;">A.n Kepala Balai</p>
-                        <p style="margin:0;">Kepala Sub Bagian TU</p>
+                        <p style="margin:0;">{{ $kasubagJabatan }}</p>
                     </div>
 
                     <div style="height:50px;"></div>
@@ -459,7 +429,7 @@
                 <td></td>
                 <td>
                     <div class="signature-box">
-                        <p>Kepala Sub Bagian TU</p>
+                        <p>{{ $kasubagJabatan }}</p>
                         <div class="signature-space"></div>
                         <div>
                             <strong>{{ $kasubagNama }}</strong><br>
@@ -514,7 +484,7 @@
                 <td></td>
                 <td>
                     <div class="signature-box">
-                        <p>Kepala Sub Bagian TU</p>
+                        <p>{{ $kasubagJabatan }}</p>
                         <div class="signature-space"></div>
                         <div>
                             <strong>{{ $kasubagNama }}</strong><br>
@@ -664,8 +634,8 @@
                 <td></td>
                 <td>Tanggal</td>
                 <td>:</td>
-                <td>{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->translatedFormat('d F Y') }} s.d
-                    {{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->translatedFormat('d F Y') }}
+                <td>{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} s.d
+                    {{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->locale('id')->translatedFormat('d F Y') }}
                 </td>
             </tr>
             <tr>

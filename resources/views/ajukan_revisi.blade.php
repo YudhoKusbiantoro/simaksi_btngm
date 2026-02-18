@@ -52,6 +52,10 @@
                             <label class="block text-gray-500 font-medium mb-1 text-sm">Instansi / Asal</label>
                             <p class="font-medium text-gray-800">{{ $pengajuan->instansi }}</p>
                         </div>
+                        <div>
+                            <label class="block text-gray-500 font-medium mb-1 text-sm">Nomor WhatsApp / HP</label>
+                            <p class="font-medium text-gray-800">{{ $pengajuan->nomor_hp ?: '-' }}</p>
+                        </div>
                     </div>
                 </div>
 

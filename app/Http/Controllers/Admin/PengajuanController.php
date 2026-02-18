@@ -23,7 +23,30 @@ class PengajuanController extends Controller
     public function show(Pengajuan $pengajuan)
     {
         $pengajuan->load(['user', 'jenisKegiatan', 'anggotas', 'dokumens', 'statusLogs']);
-        return view('admin.pengajuan.show', compact('pengajuan'));
+
+        // Ambil data penandatangan dari settings
+        $settings = \App\Models\Setting::whereIn('key', [
+            'kasubag_tu_nama',
+            'kasubag_tu_nip',
+            'kasubag_tu_jabatan',
+            'ttd_2_nama',
+            'ttd_2_nip',
+            'ttd_2_jabatan'
+        ])->get()->keyBy('key');
+
+        $ttd_a = [
+            'nama' => $settings->get('kasubag_tu_nama')?->value ?? '',
+            'nip' => $settings->get('kasubag_tu_nip')?->value ?? '',
+            'jabatan' => $settings->get('kasubag_tu_jabatan')?->value ?? '',
+        ];
+
+        $ttd_b = [
+            'nama' => $settings->get('ttd_2_nama')?->value ?? '',
+            'nip' => $settings->get('ttd_2_nip')?->value ?? '',
+            'jabatan' => $settings->get('ttd_2_jabatan')?->value ?? '',
+        ];
+
+        return view('admin.pengajuan.show', compact('pengajuan', 'ttd_a', 'ttd_b'));
     }
 
     public function updateStatus(Request $request, Pengajuan $pengajuan)
@@ -60,6 +83,7 @@ class PengajuanController extends Controller
             'identitas' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'instansi' => 'required|string|max:255',
+            'nomor_hp' => 'nullable|string|max:20',
             'lokasi' => 'required|string|max:255',
             'tujuan' => 'required|string',
             'tanggal_mulai' => 'required|date',

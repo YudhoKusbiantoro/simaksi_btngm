@@ -18,6 +18,9 @@ class SimaksiApproval extends Model
         'tarif_pnbp',
         'catatan_admin',
         'tembusan',
+        'penandatangan_nama',
+        'penandatangan_nip',
+        'penandatangan_jabatan',
         'file_pdf',
     ];
 
