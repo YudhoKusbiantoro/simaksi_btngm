@@ -47,7 +47,7 @@ class AjukanController extends Controller
             'lokasi' => 'required|string|max:255',
             'jenis_kegiatan_id' => 'required|exists:jenis_kegiatans,id',
             'kewarganegaraan' => 'required|in:WNI,WNA',
-            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_mulai' => 'required|date|after_or_equal:' . now()->addDays(14)->toDateString(),
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
         ]);
 

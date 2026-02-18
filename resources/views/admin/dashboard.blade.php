@@ -2,7 +2,7 @@
     <!-- Header / Greeting -->
     <div class="mb-10">
         <h2 class="text-4xl font-black text-green-900 tracking-tight">Selamat Datang!</h2>
-        <p class="text-gray-500 font-medium">Monitoring SIMAKSI Balai TNGM • {{ now()->translatedFormat('d F Y') }}</p>
+        <p class="text-gray-500 font-medium">Monitoring SIMAKSI Balai TNGM</p>
     </div>
 
     <!-- Stats Cards -->
@@ -11,11 +11,11 @@
         <div
             class="group bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
             <div
-                class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500">
+                class="absolute -right-4 -bottom-4 w-24 h-24 bg-green-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500">
             </div>
             <div class="relative z-10">
                 <div
-                    class="p-3 bg-blue-50 text-blue-600 rounded-2xl w-fit mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                    class="p-3 bg-green-50 text-green-600 rounded-2xl w-fit mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -29,7 +29,7 @@
             @csrf
 
             <!-- DATA KEGIATAN (READ ONLY) -->
-            <div class="bg-gray-100 rounded-lg shadow p-6 mb-6 border-l-4 border-blue-600 opacity-75">
+            <div class="bg-gray-100 rounded-lg shadow p-6 mb-6 border-l-4 border-green-600 opacity-75">
                 <h2 class="text-lg font-semibold mb-4 text-gray-700">Data Kegiatan (Hanya Baca)</h2>
 
                 <div class="bg-white rounded-lg shadow p-6 mb-6">
@@ -113,7 +113,7 @@
             <!-- ACTION -->
             <div class="flex items-center space-x-4">
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg transition duration-200">
+                    class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg transition duration-200">
                     Kirim Revisi
                 </button>
                 <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 font-medium">
@@ -161,8 +161,8 @@
                                                 file:mr-4 file:py-2 file:px-4
                                                 file:rounded file:border-0
                                                 file:text-sm file:font-semibold
-                                                file:bg-blue-600 file:text-white
-                                                hover:file:bg-blue-700">
+                                                file:bg-green-600 file:text-white
+                                                hover:file:bg-green-700">
                                         </div>
                                         <div class="text-right">
                                             <p class="text-[10px] text-gray-400">Max: 1MB (PDF, JPG, PNG)</p>
@@ -184,7 +184,7 @@
 
             loadPersyaratan();
 
-            document.getElementById('ajukanForm').addEventListener('submit', function(e) {
+            document.getElementById('ajukanForm').addEventListener('submit', function (e) {
                 const inputs = document.querySelectorAll('input[type="file"]');
                 let hasError = false;
 

@@ -15,11 +15,12 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Data Pemohon & Kegiatan -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
-                <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <div class="bg-white rounded-xl shadow p-4 md:p-6 border border-gray-200">
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 border-b pb-2 gap-2">
                     <h3 class="text-lg font-semibold text-green-700">Data Pemohon & Kegiatan</h3>
                     <button type="button" onclick="document.getElementById('modalEditData').classList.remove('hidden')"
-                        class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-lg font-semibold flex items-center gap-1 transition-colors">
+                        class="text-xs bg-green-50 text-green-600 hover:bg-green-100 px-3 py-1 rounded-lg font-semibold flex items-center gap-1 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -164,20 +165,25 @@
                 <h3 class="text-lg font-semibold text-green-700 mb-4 border-b pb-2">Dokumen Terupload</h3>
                 <div class="space-y-3">
                     @forelse($pengajuan->dokumens as $dok)
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
-                            <div class="flex items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-800">{{ $dok->nama_dokumen }}</p>
-                                    <p class="text-xs text-gray-500">{{ basename($dok->file_path) }}</p>
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 gap-3">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <div class="shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-medium text-gray-800 truncate" title="{{ $dok->nama_dokumen }}">
+                                        {{ $dok->nama_dokumen }}</p>
+                                    <p class="text-xs text-gray-500 truncate" title="{{ basename($dok->file_path) }}">
+                                        {{ basename($dok->file_path) }}</p>
                                 </div>
                             </div>
                             <a href="/storage/{{ $dok->file_path }}" target="_blank"
-                                class="text-green-600 hover:text-green-700 text-sm font-semibold">
+                                class="text-green-600 hover:text-green-700 text-sm font-semibold whitespace-nowrap self-end sm:self-auto bg-green-50 px-3 py-1.5 rounded-lg hover:bg-green-100 transition-colors">
                                 Lihat File
                             </a>
                         </div>
@@ -387,7 +393,7 @@
                                 $colors = [
                                     'menunggu' => 'bg-yellow-100 text-yellow-800',
                                     'disetujui' => 'bg-green-100 text-green-800',
-                                    'dijadwalkan presentasi' => 'bg-blue-100 text-blue-800',
+                                    'dijadwalkan presentasi' => 'bg-emerald-100 text-emerald-800',
                                     'revisi' => 'bg-purple-100 text-purple-800',
                                 ];
                             @endphp
@@ -471,23 +477,23 @@
                         <div class="relative">
                             <!-- Bullet -->
                             <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full border-2 border-white 
-                                                                        @if($log->status == 'menunggu') bg-yellow-400 
-                                                                        @elseif($log->status == 'revisi') bg-purple-500 
-                                                                        @elseif($log->status == 'sudah di revisi') bg-blue-500 
-                                                                        @elseif($log->status == 'disetujui') bg-green-500 
-                                                                        @elseif($log->status == 'dijadwalkan presentasi') bg-blue-400 
-                                                                        @else bg-gray-500 @endif shadow-sm">
+                                                                                @if($log->status == 'menunggu') bg-yellow-400 
+                                                                                @elseif($log->status == 'revisi') bg-purple-500 
+                                                                                @elseif($log->status == 'sudah di revisi') bg-blue-500 
+                                                                                @elseif($log->status == 'disetujui') bg-green-500 
+                                                                                @elseif($log->status == 'dijadwalkan presentasi') bg-blue-400 
+                                                                                @else bg-gray-500 @endif shadow-sm">
                             </div>
 
                             <div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold uppercase tracking-wider 
-                                                                            @if($log->status == 'menunggu') text-yellow-700 
-                                                                            @elseif($log->status == 'revisi') text-purple-700 
-                                                                            @elseif($log->status == 'sudah di revisi') text-blue-700 
-                                                                            @elseif($log->status == 'disetujui') text-green-700 
-                                                                            @elseif($log->status == 'dijadwalkan presentasi') text-blue-800 
-                                                                            @else text-gray-700 @endif">
+                                                                                    @if($log->status == 'menunggu') text-yellow-700 
+                                                                                    @elseif($log->status == 'revisi') text-purple-700 
+                                                                                    @elseif($log->status == 'sudah di revisi') text-blue-700 
+                                                                                    @elseif($log->status == 'disetujui') text-green-700 
+                                                                                    @elseif($log->status == 'dijadwalkan presentasi') text-blue-800 
+                                                                                    @else text-gray-700 @endif">
                                         {{ $log->status == 'sudah di revisi' ? 'SUDAH DIREVISI' : ucfirst($log->status) }}
                                     </span>
                                     <span class="text-[10px] text-gray-400">

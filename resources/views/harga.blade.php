@@ -34,7 +34,8 @@
                             <tr class="bg-gray-200">
                                 <td class="py-3 px-4 border border-gray-300 font-bold">Berkemah</td>
                                 <td class="py-3 px-4 border border-gray-300">per orang per hari</td>
-                                <td class="py-3 px-4 border border-gray-300">Rp5.000</td>
+                                <td class="py-3 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_berkemah'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                             <!-- Mendaki Gunung -->
                             <tr class="bg-green-100"> <!-- Light Green -->
@@ -43,7 +44,8 @@
                                     <span class="font-normal text-xs">(Hiking-Climbing)</span>
                                 </td>
                                 <td class="py-3 px-4 border border-gray-300">per orang per hari</td>
-                                <td class="py-3 px-4 border border-gray-300">Rp20.000</td>
+                                <td class="py-3 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_mendaki'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                             <!-- Penelusuran Gua -->
                             <tr class="bg-green-100">
@@ -51,7 +53,8 @@
                                     Penelusuran Gua (Caving)
                                 </td>
                                 <td class="py-3 px-4 border border-gray-300">per orang per hari</td>
-                                <td class="py-3 px-4 border border-gray-300">Rp10.000</td>
+                                <td class="py-3 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_caving'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -78,26 +81,38 @@
                             <tr class="bg-gray-100">
                                 <td class="py-4 px-4 border border-gray-300 font-bold text-left pl-8">Penelitian <1
                                         Bulan</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp5.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp100.000</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wna_1bln'] ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wni_1bln'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
                                 <td class="py-4 px-4 border border-gray-300 font-bold text-left pl-8">Penelitian 1-6
                                     Bulan</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp10.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp150.000</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wna_1_6bln'] ?? 0, 0, ',', '.') }}
+                                </td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wni_1_6bln'] ?? 0, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <tr class="bg-gray-100">
                                 <td class="py-4 px-4 border border-gray-300 font-bold text-left pl-8">Penelitian 7-12
                                     Bulan</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp15.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp250.000</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wna_7_12bln'] ?? 0, 0, ',', '.') }}
+                                </td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_penelitian_wni_7_12bln'] ?? 0, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <tr>
                                 <td class="py-4 px-4 border border-gray-300 font-bold text-left pl-8">Izin Pengambilan
                                     Sampel</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp500.000</td>
-                                <td class="py-4 px-4 border border-gray-300">Rp50.000</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_sampel_wna'] ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-4 px-4 border border-gray-300">
+                                    Rp{{ number_format($settings['harga_sampel_wni'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -137,8 +152,12 @@
                                         <li>Reality Show dan Sejenisnya</li>
                                     </ul>
                                 </td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp20.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp10.000.000</td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_video_iklan_wna'] ?? 0, 0, ',', '.') }}
+                                </td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_video_iklan_wni'] ?? 0, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <!-- Foto Paket Wisata etc -->
                             <tr class="bg-gray-100">
@@ -150,8 +169,12 @@
                                         <li>Iklan Jasa dan Sejenisnya</li>
                                     </ul>
                                 </td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp5.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp2.000.000</td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_foto_wisata_wna'] ?? 0, 0, ',', '.') }}
+                                </td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_foto_wisata_wni'] ?? 0, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <!-- Prewedding -->
                             <tr class="bg-white">
@@ -159,8 +182,12 @@
                                     class="py-4 px-6 border border-gray-300 text-left font-bold pl-10 flex items-center gap-2">
                                     <span class="text-black">•</span> Video dan Foto Prewedding
                                 </td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp3.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp1.000.000</td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_prewedding_wna'] ?? 0, 0, ',', '.') }}
+                                </td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_prewedding_wni'] ?? 0, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <!-- Drone -->
                             <tr class="bg-gray-100">
@@ -168,8 +195,10 @@
                                     class="py-4 px-6 border border-gray-300 text-left font-bold pl-10 flex items-center gap-2">
                                     <span class="text-black">•</span> Drone
                                 </td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp2.000.000</td>
-                                <td class="py-4 px-4 border border-gray-300 align-middle">Rp2.000.000</td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_drone_wna'] ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-4 px-4 border border-gray-300 align-middle">
+                                    Rp{{ number_format($settings['harga_komersial_drone_wni'] ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>

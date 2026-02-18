@@ -101,11 +101,20 @@
                 <!-- Tanggal -->
                 <div class="mb-4">
                     <label class="block font-medium mb-2">Waktu Pelaksanaan</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="date" name="tanggal_mulai" min="{{ now()->toDateString() }}" required
-                            class="border rounded-lg px-4 py-2">
-                        <input type="date" name="tanggal_selesai" min="{{ now()->toDateString() }}" required
-                            class="border rounded-lg px-4 py-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Tanggal Mulai</label>
+                            <input type="date" name="tanggal_mulai" id="tanggal_mulai"
+                                min="{{ \Carbon\Carbon::now()->addDays(14)->toDateString() }}" required
+                                class="w-full border rounded-lg px-4 py-2">
+                            <p class="text-[10px] text-gray-500 mt-1">*Minimal H-14 (2 minggu) dari hari ini.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Tanggal Selesai</label>
+                            <input type="date" name="tanggal_selesai" id="tanggal_selesai"
+                                min="{{ \Carbon\Carbon::now()->addDays(14)->toDateString() }}" required
+                                class="w-full border rounded-lg px-4 py-2">
+                        </div>
                     </div>
                 </div>
             </div>

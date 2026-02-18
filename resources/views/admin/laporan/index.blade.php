@@ -7,9 +7,9 @@
     <!-- Rekap Stats Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <!-- Total Pengajuan -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-green-600">
             <div class="flex items-center gap-4">
-                <div class="p-3 bg-blue-50 rounded-xl text-blue-600">
+                <div class="p-3 bg-green-50 rounded-xl text-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,6 +38,42 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Export Section (Moved here under Stats) -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-white to-green-50/30">
+        <div class="flex items-start gap-4">
+            <div class="p-3 bg-green-100 rounded-2xl text-green-700 border border-green-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h4m-4 4l-4-4m4 4l4-4m-5 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-gray-800 tracking-tight">Cetak Laporan Excel</h4>
+                <p class="text-sm text-gray-500 max-w-md mt-1">Unduh rekapan data pengajuan SIMAKSI untuk kebutuhan pengarsipan dan pelaporan resmi dalam format spreadsheet.</p>
+            </div>
+        </div>
+        
+        <form action="{{ route('admin.laporan.export') }}" method="GET" class="w-full md:w-auto">
+            {{-- Hidden inputs to pass filters to export --}}
+            <input type="hidden" name="month" value="{{ $selectedMonth }}">
+            <input type="hidden" name="year" value="{{ $selectedYear }}">
+            <input type="hidden" name="start_year" value="{{ $startYear }}">
+            <input type="hidden" name="end_year" value="{{ $endYear }}">
+            <input type="hidden" name="jenis_kegiatan_id" value="{{ $selectedJenisKegiatan }}">
+
+            <button type="submit"
+                class="w-full md:w-auto bg-green-700 hover:bg-green-800 text-white px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 shadow-lg shadow-green-100 hover:shadow-green-200 flex items-center justify-center gap-3 group transform hover:-translate-y-1 active:scale-95 leading-none">
+                <div class="bg-white/20 p-1.5 rounded-lg group-hover:bg-white/30 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <span>Export ke Excel</span>
+            </button>
+        </form>
     </div>
 
     <!-- Filters -->
@@ -99,16 +135,9 @@
             </select>
         </div>
         <button type="submit"
-            class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-bold transition shadow-sm">
+            class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg text-sm font-bold transition shadow-sm h-[42px]">
             Filter
         </button>
-        <a href="{{ route('admin.laporan.index') }}" class="text-gray-400 hover:text-gray-600 p-2 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-        </a>
     </form>
 
 

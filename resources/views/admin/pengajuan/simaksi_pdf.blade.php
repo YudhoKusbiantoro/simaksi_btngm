@@ -120,7 +120,9 @@
         .signature-table td {
             width: 50%;
             vertical-align: top;
+            text-align: center;
         }
+
 
         .signature-box {
             text-align: center;
@@ -183,6 +185,12 @@
         .laporan-title {
             width: 160px;
         }
+
+        .list-ketentuan li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+            text-align: justify;
+        }
     </style>
 </head>
 
@@ -199,7 +207,7 @@
         </div>
 
         <div class="title-box">
-            <h3>SURAT IJIN MASUK KAWASAN KONSERVASI (SIMAKSI)</h3>
+            <h3>SURAT IZIN MASUK KAWASAN KONSERVASI (SIMAKSI)</h3>
             <p>Nomor : {{ $approval->nomor_surat }}</p>
         </div>
 
@@ -348,38 +356,56 @@
 
         <p style="margin-top: 2px;">Demikian surat ijin ini dibuat untuk digunakan sebagaimana mestinya.</p>
 
-        <table class="signature-table">
+        <table class="signature-table" style="margin-top:20px;">
             <tr>
-                <td style="padding-top: 5px;">
-                    <div style="margin-top: 10px; margin-left: 40px;">
-                        <p>Pemegang Simaksi</p>
-                        <div
-                            style="border: 1px dashed #ccc; width: 70px; height: 40px; display: inline-block; text-align: center; vertical-align: middle; line-height: 40px; font-size: 8pt; color: #999; margin-bottom: 5px;">
-                            MATERAI
-                        </div>
-                        <div>
-                            <strong>{{ $pengajuan->nama_pemohon }}</strong><br>
-                            {{ $pengajuan->jabatan }}
-                        </div>
+
+                <!-- KOLOM KIRI -->
+                <td style="width:50%; vertical-align: top; text-align: left; padding-left: 60px;">
+
+                    <div style="height:42px;"></div>
+
+                    <p style="margin:0 0 0 25px;">Pemegang Simaksi</p>
+
+                    <div style="
+                        border:1px dashed #ccc;
+                        width:80px;
+                        height:40px;
+                        margin:10px 0 10px -30px;
+                        line-height:40px;
+                        font-size:8pt;
+                        text-align:center;">
+                        MATERAI
                     </div>
-                </td>
-                <td>
-                    <div class="signature-box">
-                        <p>Dikeluarkan di : Sleman</p>
-                        <p>Pada tanggal : {{ $tanggal_cetak }}</p>
-                        <div style="margin-top: 5px;">
-                            a.n Kepala Balai<br>
-                            Kepala Sub Bagian TU
-                        </div>
-                        <div class="signature-space"></div>
-                        <div>
-                            <strong>{{ $kasubagNama }}</strong><br>
-                            NIP. {{ $kasubagNip }}
-                        </div>
+
+                    <div style="text-align:center; margin-top:5px; margin-left:-100px;">
+                        <strong>{{ $pengajuan->nama_pemohon }}</strong><br>
+                        {{ $pengajuan->jabatan }}
                     </div>
+
                 </td>
+
+                <!-- KOLOM KANAN -->
+                <td style="width:50%; vertical-align: top; text-align: center;">
+
+                    <p style="margin:0;">Dikeluarkan di : Sleman</p>
+
+                    <p style="margin:0;">Pada tanggal : {{ $tanggal_cetak }}</p>
+
+                    <div style="margin-top:10px;">
+                        <p style="margin:0;">A.n Kepala Balai</p>
+                        <p style="margin:0;">Kepala Sub Bagian TU</p>
+                    </div>
+
+                    <div style="height:50px;"></div>
+
+                    <strong>{{ $kasubagNama }}</strong><br>
+                    NIP. {{ $kasubagNip }}
+
+                </td>
+
             </tr>
         </table>
+
 
         <div class="tembusan-section" style="font-size: 8pt; margin-top: 5px;">
             <p style="margin: 0;"><strong>Tembusan :</strong></p>
@@ -399,15 +425,14 @@
             <p>Tanggal : {{ $tanggal_cetak }}</p>
         </div>
 
-        <h4 style="text-align: center; text-decoration: underline; margin-bottom: 10px;">Daftar Peserta Magang/ PKL</h4>
+        <h4 style="text-align: center; text-decoration: underline; margin-bottom: 10px;">Daftar Anggota</h4>
 
         <table class="table-peserta">
             <thead>
                 <tr>
                     <th style="width: 30px;">No</th>
-                    <th style="width: 150px;">Nama</th>
-                    <th style="width: 100px;">NIM</th>
-                    <th style="width: 120px;">Prodi</th>
+                    <th style="width: 200px;">Nama</th>
+                    <th style="width: 150px;">No Identitas</th>
                     <th>Tema/ Judul Magang</th>
                 </tr>
             </thead>
@@ -416,7 +441,6 @@
                     <td style="text-align: center;">1</td>
                     <td>{{ $pengajuan->nama_pemohon }}</td>
                     <td>{{ $pengajuan->identitas }}</td>
-                    <td>{{ $pengajuan->jabatan }}</td>
                     <td>{{ $pengajuan->tujuan }}</td>
                 </tr>
                 @foreach($pengajuan->anggotas as $index => $agt)
@@ -424,7 +448,6 @@
                         <td style="text-align: center;">{{ $index + 2 }}</td>
                         <td>{{ $agt->nama }}</td>
                         <td>{{ $agt->identitas }}</td>
-                        <td>{{ $agt->peran }}</td>
                         <td>{{ $pengajuan->tujuan }}</td>
                     </tr>
                 @endforeach

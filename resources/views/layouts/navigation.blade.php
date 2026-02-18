@@ -12,7 +12,7 @@
             <div class="hidden sm:flex sm:items-center sm:space-x-6">
                 @auth
                     @if(!Auth::user()->is_admin)
-                        <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-green-600 font-medium">Dashboard</a>
                     @endif
 
                     <x-dropdown align="right" width="48">
@@ -20,7 +20,9 @@
                             <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
                                 <div>{{ Auth::user()->email }}</div>
                                 <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </button>
                         </x-slot>
@@ -29,7 +31,8 @@
                             @if(Auth::user()->is_admin)
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault(); this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
                                 </form>
@@ -40,7 +43,8 @@
 
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault(); this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
                                 </form>
@@ -48,8 +52,9 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 font-medium">Login</a>
-                    <a href="{{ route('register') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Daftar</a>
+                    <a href="{{ route('login') }}" class="text-gray-700 hover:text-green-600 font-medium">Login</a>
+                    <a href="{{ route('register') }}"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Daftar</a>
                 @endauth
             </div>
 
@@ -66,7 +71,10 @@
     </div>
 
     <!-- Responsive Menu (Mobile) -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden" x-show="open"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2">
         <div class="pt-2 pb-3 space-y-1">
             @auth
                 @if(!Auth::user()->is_admin)

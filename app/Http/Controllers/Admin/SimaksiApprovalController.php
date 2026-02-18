@@ -120,7 +120,7 @@ class SimaksiApprovalController extends Controller
     private function generatePDF(Pengajuan $pengajuan, SimaksiApproval $approval)
     {
         $pengajuan->load(['user', 'jenisKegiatan', 'anggotas']);
-        $tanggal_cetak = Carbon::parse($approval->tanggal_terbit)->translatedFormat('d F Y');
+        $tanggal_cetak = Carbon::parse($approval->tanggal_terbit)->locale('id')->translatedFormat('d F Y');
 
         // Ambil pengaturan dari database
         $kasubagNama = Setting::where('key', 'kasubag_tu_nama')->first()?->value ?? 'Endarmiyati, S. Si, M. Sc.';

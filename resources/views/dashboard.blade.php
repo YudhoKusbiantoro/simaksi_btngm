@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 py-10">
+    <div x-data="{ show: true }" x-show="show" x-transition.opacity.duration.500ms class="max-w-7xl mx-auto px-4 py-10">
 
         <div class="mb-4">
             <a href="{{ route('home') }}"
@@ -11,7 +11,7 @@
         <h1 class="text-3xl font-bold mb-4">Riwayat Pengajuan SIMAKSI</h1>
 
         <!-- Info Instansi -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-800">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-sm text-green-800">
             <strong>Informasi:</strong>
             Halaman ini menampilkan seluruh riwayat pengajuan izin kegiatan yang telah Anda ajukan melalui Sistem
             SIMAKSI.
@@ -26,7 +26,7 @@
                 </a>
             </div>
         @else
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg-white rounded-lg shadow overflow-x-auto">
 
                 <div class="px-6 py-4 border-b">
                     <h2 class="text-lg font-semibold">Daftar Pengajuan</h2>
@@ -49,7 +49,7 @@
 
                     <tbody class="divide-y divide-gray-200">
                         @foreach($pengajuans as $pengajuan)
-                            <tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
                                 <td class="px-6 py-4">
                                     {{ $pengajuan->jenisKegiatan?->nama ?? '-' }}
                                 </td>
@@ -71,7 +71,7 @@
                                             Disetujui
                                         </span>
                                     @elseif($pengajuan->status === 'dijadwalkan presentasi')
-                                        <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                                        <span class="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
                                             Dijadwalkan Presentasi
                                         </span>
                                     @elseif($pengajuan->status === 'revisi')
@@ -103,7 +103,7 @@
                                 <td class="px-6 py-4">
                                     @if($pengajuan->status === 'revisi')
                                         <a href="{{ route('ajukan.edit', $pengajuan->id) }}"
-                                            class="text-blue-600 hover:text-blue-800 font-semibold underline">
+                                            class="text-green-600 hover:text-green-800 font-semibold underline">
                                             Lengkapi Revisi
                                         </a>
                                     @else

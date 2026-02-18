@@ -196,4 +196,44 @@ class LaporanController extends Controller
 
         return response()->json($data);
     }
+    public function export(Request $request)
+    {
+        $selectedMonth = $request->input('month');
+        $selectedYear = $request->input('year');
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
+        $selectedJenisKegiatan = $request->input('jenis_kegiatan_id');
+
+        $query = Pengajuan::with(['jenisKegiatan', 'user']);
+
+        // Month Filter
+        if ($selectedMonth) {
+            $query->whereMonth('created_at', $selectedMonth);
+        }
+
+        // Year Filter Logic
+        if ($selectedYear && $selectedYear !== 'all') {
+            $query->whereYear('created_at', $selectedYear);
+        } elseif ($startYear && $endYear) {
+            $query->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $endYear]);
+        }
+
+        if ($selectedJenisKegiatan) {
+            $query->where('jenis_kegiatan_id', $selectedJenisKegiatan);
+        }
+
+        // EXCLUDE "Upload PDF" or similar logic
+        // Assuming "Upload PDF" is a specific activity type name we want to exclude
+        $query->whereDoesntHave('jenisKegiatan', function ($q) {
+            $q->where('nama', 'LIKE', '%Upload PDF%');
+        });
+
+        $pengajuans = $query->latest()->get();
+
+        $filename = 'Laporan_SIMAKSI_' . date('Y-m-d_H-i-s') . '.xls';
+
+        return response(view('admin.laporan.excel', compact('pengajuans')))
+            ->header('Content-Type', 'application/vnd.ms-excel')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
 }
