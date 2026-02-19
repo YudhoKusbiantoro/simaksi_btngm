@@ -24,7 +24,7 @@ class PengajuanController extends Controller
     {
         $pengajuan->load(['user', 'jenisKegiatan', 'anggotas', 'dokumens', 'statusLogs']);
 
-        // Ambil data penandatangan dari settings
+        // Ambil data penandatangan dari settings (Preset A & B)
         $settings = \App\Models\Setting::whereIn('key', [
             'kasubag_tu_nama',
             'kasubag_tu_nip',

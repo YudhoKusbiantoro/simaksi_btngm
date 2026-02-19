@@ -351,7 +351,7 @@
                                         <input type="radio" name="ttd_choice" value="ttd_a" checked class="text-green-600 focus:ring-green-500">
                                         <div class="text-xs">
                                             <p class="font-bold">Penandatangan A</p>
-                                            <p class="text-gray-500 leading-tight">{{ $ttd_a['nama'] }}</p>
+                                            <p class="text-gray-500 leading-tight">{{ $ttd_a['nama'] ?: 'Data belum diatur' }}</p>
                                         </div>
                                     </label>
 
@@ -361,7 +361,7 @@
                                         <input type="radio" name="ttd_choice" value="ttd_b" class="text-green-600 focus:ring-green-500">
                                         <div class="text-xs">
                                             <p class="font-bold">Penandatangan B</p>
-                                            <p class="text-gray-500 leading-tight">{{ $ttd_b['nama'] ?: 'Belum diatur' }}</p>
+                                            <p class="text-gray-500 leading-tight">{{ $ttd_b['nama'] ?: 'Data belum diatur' }}</p>
                                         </div>
                                     </label>
 

@@ -16,7 +16,7 @@ class SettingController extends Controller
             'label' => 'Pengaturan Penandatangan (TTD)',
             'settings' => [
                 'ttd_a' => [
-                    'label' => 'Penandatangan A (Default)',
+                    'label' => 'Penandatangan A (Kesubag TU)',
                     'fields' => [
                         $allSettings->get('kasubag_tu_nama'),
                         $allSettings->get('kasubag_tu_nip'),

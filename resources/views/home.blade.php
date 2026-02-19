@@ -7,12 +7,12 @@
             scroll-behavior: smooth;
         }
 
-        /* Offset untuk section saat di-klik dari menu */
+        /* Offset untuk section saat di-klik dari menu agar tidak tertutup navbar */
         section {
-            scroll-margin-top: 80px;
+            scroll-margin-top: 55px;
         }
 
-        /* Animasi Muncul */
+        /* Animasi Muncul saat scroll */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -23,90 +23,43 @@
             transform: translateY(0);
         }
 
-        /* Navbar State */
-        #navbar-container {
-            @apply absolute top-16 left-0 right-0 z-[1000] text-white transition-all duration-300;
+        /* Sticky Navbar Styling */
+        .nav-sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            animation: slideDown 0.4s ease-out;
         }
 
-        /* Sticky State */
-        #navbar-container.nav-sticky {
-            @apply fixed top-0 bg-white/90 backdrop-blur-md shadow-lg text-gray-800 py-2;
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
-        #navbar-container.nav-sticky .nav-link {
-            @apply text-gray-800 after:bg-green-700;
+        .nav-sticky .nav-link {
+            color: #1f2937;
+        }
+        
+        .nav-sticky .nav-link:after {
+            background-color: #15803d;
         }
 
-        #navbar-container.nav-sticky .logo-text {
-            @apply text-green-800;
+        .nav-sticky .logo-text {
+            color: #166534;
+        }
+
+        .nav-sticky .mobile-btn {
+            color: #1f2937;
         }
     </style>
 
-    <!-- NAVBAR -->
-    <div id="navbar-container">
-        <div id="navbar" x-data="{ mobileMenuOpen: false }"
-            class="max-w-7xl mx-auto flex justify-between items-center px-6 py-2 md:py-3 relative">
-
-            <div class="flex items-center gap-3 text-2xl md:text-3xl font-bold tracking-wider logo-text">
-                <img src="{{ asset('images/logo-simaksi.webp') }}" class="h-10">
-                <span>TNGM</span>
-            </div>
-
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex gap-6 md:gap-10 font-bold text-sm md:text-base">
-                @foreach([
-                    ['Beranda', '#hero'],
-                    ['Peraturan', '#peraturan'],
-                    ['Panduan', '#panduan'],
-                    ['Harga', route('harga')],
-                    ['Kontak', '#kontak']
-                ] as $menu)
-                <a href="{{ $menu[1] }}"
-                class="nav-link relative pb-1 after:absolute after:left-0 after:-bottom-1
-                        after:w-0 after:h-[2px] after:bg-white
-                        hover:after:w-full after:transition-all after:duration-300">
-                    {{ $menu[0] }}
-                </a>
-                @endforeach
-            </nav>
-
-            <!-- Mobile Menu Button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-
-            <!-- Mobile Nav Dropdown -->
-            <div x-show="mobileMenuOpen"
-                 @click.away="mobileMenuOpen = false"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 -translate-y-2"
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="absolute top-full left-0 w-full bg-white text-gray-800 shadow-lg md:hidden flex flex-col z-50">
-                
-                @foreach([
-                    ['Beranda', '#hero'],
-                    ['Peraturan', '#peraturan'],
-                    ['Panduan', '#panduan'],
-                    ['Harga', route('harga')],
-                    ['Kontak', '#kontak']
-                ] as $menu)
-                <a href="{{ $menu[1] }}"
-                   class="block px-6 py-3 border-b hover:bg-gray-100 font-bold"
-                   @click="mobileMenuOpen = false">
-                    {{ $menu[0] }}
-                </a>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= HERO ================= -->
     <div id="hero"
          class="relative min-h-screen bg-cover bg-center"
          style="background-image: url('{{ asset('images/gunung-merapi.jpeg') }}')">
@@ -163,6 +116,70 @@
             </div>
 
             <div class="border-t border-white/40 mx-6"></div>
+
+            <!-- NAVBAR -->
+            <div id="navbar-wrapper" class="relative">
+                <div id="navbar" x-data="{ mobileMenuOpen: false }"
+                     class="flex justify-between items-center px-6 py-2 md:py-3 transition-all duration-300 w-full">
+
+                    <div class="flex items-center gap-3 text-2xl md:text-3xl font-bold tracking-wider logo-text">
+                        <img src="{{ asset('images/logo-simaksi.webp') }}" class="h-10">
+                        <span>TNGM</span>
+                    </div>
+
+                    <!-- Desktop Nav -->
+                    <nav class="hidden md:flex gap-6 md:gap-10 font-bold text-sm md:text-base">
+                        @foreach([
+                            ['Beranda', '#hero'],
+                            ['Peraturan', '#peraturan'],
+                            ['Panduan', '#panduan'],
+                            ['Harga', route('harga')],
+                            ['Kontak', '#kontak']
+                        ] as $menu)
+                        <a href="{{ $menu[1] }}"
+                           class="nav-link relative pb-1 after:absolute after:left-0 after:-bottom-1
+                                  after:w-0 after:h-[2px] after:bg-white
+                                  hover:after:w-full after:transition-all after:duration-300">
+                            {{ $menu[0] }}
+                        </a>
+                        @endforeach
+                    </nav>
+
+                    <!-- Mobile Menu Button -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden focus:outline-none mobile-btn">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+
+                    <!-- Mobile Nav Dropdown -->
+                    <div x-show="mobileMenuOpen"
+                         @click.away="mobileMenuOpen = false"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-2"
+                         class="absolute top-full left-0 w-full bg-white text-gray-800 shadow-lg md:hidden flex flex-col z-50">
+                        
+                        @foreach([
+                            ['Beranda', '#hero'],
+                            ['Peraturan', '#peraturan'],
+                            ['Panduan', '#panduan'],
+                            ['Harga', route('harga')],
+                            ['Kontak', '#kontak']
+                        ] as $menu)
+                        <a href="{{ $menu[1] }}"
+                           class="block px-6 py-3 border-b hover:bg-gray-100 font-bold"
+                           @click="mobileMenuOpen = false">
+                            {{ $menu[0] }}
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
             <!-- HERO CONTENT -->
             <div class="flex flex-col justify-center items-center text-center min-h-[75vh] px-4">
@@ -348,17 +365,16 @@
         </div>
     </section>
 
-    <!-- SCRIPT NAVBAR SCROLL EFFECT -->
     <script>
-        const navbarContainer = document.getElementById('navbar-container');
-        const heroSection = document.getElementById('hero');
+        const navbar = document.getElementById('navbar');
+        const hero = document.getElementById('hero');
 
         window.addEventListener('scroll', function () {
-            // Kita gunakan window.scrollY > 100 sebagai threshold
-            if (window.scrollY > 100) {
-                navbarContainer.classList.add('nav-sticky');
+            // Threshold scroll 80px (sekitar tinggi top bar)
+            if (window.scrollY > 80) {
+                navbar.classList.add('nav-sticky');
             } else {
-                navbarContainer.classList.remove('nav-sticky');
+                navbar.classList.remove('nav-sticky');
             }
         });
 
@@ -378,35 +394,33 @@
 
         window.addEventListener('scroll', revealOnScroll);
         window.addEventListener('load', revealOnScroll);
-    </script>
-<script>
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.length > 1) {
-                e.preventDefault();
 
-                // kalau klik Beranda / #hero -> scroll paling atas
-                if (targetId === '#hero') {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                    return;
+        // Smooth scroll handling for anchor links with offset
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.length > 1) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        
+                        // Menutup menu mobile jika terbuka
+                        if (window.Alpine) {
+                            // Mencari instance Alpine terdekat atau gunakan state global jika ada
+                            // Tapi karena menu mobile dikontrol x-data lokal di navbar, kita biarkan @click handler di HTML bekerja
+                        }
+
+                        const offset = 55; // Menyesuaikan tinggi navbar sticky agar pas
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
-
-                const target = document.querySelector(targetId);
-                const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-
-                // offset untuk section biasa supaya tidak ketutup navbar
-                const offsetPosition = elementPosition - 64;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
+            });
         });
-    });
-</script>
+    </script>
 </x-app-layout>
